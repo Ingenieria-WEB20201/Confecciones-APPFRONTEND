@@ -1,6 +1,6 @@
 <div class="d-flex" id="wrapper">
 
-    <div id="sidebar-wrapper">
+    <div id="sidebar-wrapper" *ngIf="isLoggedIn">
         <div class="sidebar-heading">ConfeccionesApp</div>
         <div class="list-group list-group-flush">
             <div>
@@ -13,9 +13,9 @@
         </div>
 
     </div>
-    <div class="btn-inicio-sidebar" id="menu-toggle">&#9776;</div>
+    <div *ngIf="isLoggedIn" class="btn-inicio-sidebar" id="menu-toggle">&#9776;</div>
     <div id="page-content-wrapper">
-        <nav class="navbar navbar-expand navbar-dark ">
+        <nav *ngIf="isLoggedIn" class="navbar navbar-expand navbar-dark ">
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

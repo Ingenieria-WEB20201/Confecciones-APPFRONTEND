@@ -30,6 +30,7 @@
     background-color: #2a303a;
     box-shadow: 2px 1px 7px -4px rgba(150, 150, 150, 1);
     text-decoration: none;
+    border-left: solid 7px #2a303a;
     color: #fff;
 }
 
