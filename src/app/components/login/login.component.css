@@ -1,0 +1,23 @@
+/*============================================================ LOGIN ==============================================*/
+
+.iniciar-secion {
+    max-width: 350px;
+    width: 100%;
+    margin: auto;
+    margin-top: 5%;
+}
+
+.iniciar-secion form {
+    margin: auto 2%;
+}
+
+.iniciar-secion form .btn {
+    background-color: #25383b;
+    transition: all 0.5s;
+    border: none;
+}
+
+.iniciar-secion form .btn:hover {
+    background-color: #105E6D;
+    border: none;
+}

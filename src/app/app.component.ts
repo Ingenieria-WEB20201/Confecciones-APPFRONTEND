@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
+import * as jQuery from 'jquery';
+
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,7 @@ export class AppComponent implements OnInit {
   constructor(private tokenStorageService: TokenStorageService) { }
 
   ngOnInit() {
+
     this.isLoggedIn = !!this.tokenStorageService.getToken();
 
     if (this.isLoggedIn) {
@@ -24,15 +27,24 @@ export class AppComponent implements OnInit {
       this.roles = user.roles;
 
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
-      this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
+      this.showModeratorBoard = this.roles.includes('ROLE_TERCERO');
 
       this.username = user.username;
     }
+
+    jQuery("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      jQuery("#wrapper").toggleClass("toggled");
+    });
+
   }
 
   logout() {
     this.tokenStorageService.signOut();
     window.location.reload();
   }
+
+
+
 
 }

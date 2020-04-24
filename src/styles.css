@@ -3,63 +3,10 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
-
-/*============================================================ APP.COMPONENT ==============================================*/
-
-.navbar {
-    background-color: #55A12F;
-}
-
-.navbar ul .nav-item {
-    transition: all 0.5s;
-}
-
-.navbar ul .nav-item.active {
-    background-color: #368011;
-    border-radius: 5px;
-}
-
-
-/*============================================================ LOGIN ==============================================*/
-
-.iniciar-secion {
-    max-width: 350px;
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     width: 100%;
-    margin: auto;
-    margin-top: 5%;
-}
-
-.iniciar-secion form {
-    margin: auto 2%;
-}
-
-.iniciar-secion form .btn {
-    background-color: #55A12F;
-    transition: all 0.5s;
-}
-
-.iniciar-secion form .btn:hover {
-    background-color: #368011;
-}
-
-
-/*============================================================ REGISTER ==============================================*/
-
-.registrar {
-    width: 100%;
-    max-width: 350px;
-    margin: auto;
-}
-
-.registrar form {
-    margin: auto 3%;
-}
-
-.registrar form .btn {
-    background-color: #55A12F;
-    transition: all 0.5s;
-}
-
-.registrar form .btn:hover {
-    background-color: #368011;
 }
