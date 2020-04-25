@@ -44,14 +44,15 @@
 .active {
     background-color: #6b727e;
     color: #fff;
-    border-left: solid 7px #50B2C4;
+    border-left: solid 7px #0173bc;
+    ;
     text-decoration: none;
 }
 
 .btn-inicio-sidebar {
     width: 70px;
     height: 56px;
-    background-color: #1D6B88;
+    background-color: #0173bc;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -60,7 +61,12 @@
 }
 
 .btn-inicio-sidebar:hover {
-    background-color: rgba(29, 107, 136, 0.76);
+    background-color: #0e4466;
+    color: #fff;
+}
+
+.btn-inicio-sidebar:active {
+    background-color: #0e4466;
     color: #fff;
 }
 
@@ -81,7 +87,7 @@
 /*============================================================ Navbar ==============================================*/
 
 .navbar {
-    background-color: #1D6B88;
+    background-color: #0062a9;
 }
 
 .navbar ul .nav-item {
@@ -89,7 +95,7 @@
 }
 
 .navbar ul .nav-item.active {
-    background-color: #306d80;
+    background-color: #108ddb;
     border-radius: 5px;
 }
 
@@ -104,7 +110,7 @@
 }
 
 .item-userdropdawn:hover {
-    background-color: #242931;
+    background-color: #2a303a;
     color: #fff;
 }
 
@@ -117,9 +123,22 @@
     padding: 0;
 }
 
+.dropdown-user {
+    cursor: pointer;
+}
+
 .container-login {
     height: 100%;
     /*background-image: url("../assets/fondouniverso.gif");*/
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 4.5rem;
+    margin-top: 2.2em;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }

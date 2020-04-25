@@ -4,11 +4,12 @@
             <div class="sidebar-heading">ConfeccionesApp</div>
             <div class="list-group list-group-flush">
                 <div>
+
                     <a href="/home" class="list-group-item sidebar-item " routerLinkActive="active" routerLink="home">Home</a>
                 </div>
 
                 <div *ngIf="showAdminBoard">
-                    <a href="/admin" class="list-group-item sidebar-item " routerLinkActive="active" routerLink="admin">Admin Board</a>
+                    <a class="list-group-item sidebar-item " routerLinkActive="active" routerLink="register">Registro</a>
                 </div>
 
                 <div *ngIf="showAdminBoard">
@@ -38,13 +39,14 @@
                     </li>
                 </ul>
 
+
                 <ul class="navbar-nav ml-auto nombreuser" *ngIf="isLoggedIn">
                     <li class="nav-item dropdown ">
-                        <a class="nav-link dropdown-toggle " id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle dropdown-user" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       {{ username }}
                     </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a href="/profile" class="dropdown-item tem-userdropdawn" routerLink="profile">{{ username }}</a>
+                        <div class="dropdown-menu " aria-labelledby="navbarDropdownMenuLink">
+                            <a href="/profile" class="dropdown-item item-userdropdawn" routerLink="profile">Editar perfil</a>
                             <a href class="dropdown-item item-userdropdawn" (click)="logout()">Cerrar sesión</a>
                         </div>
                     </li>
