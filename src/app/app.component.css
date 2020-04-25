@@ -64,6 +64,19 @@
     color: #fff;
 }
 
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -15rem;
+    }
+}
+
 
 /*============================================================ Navbar ==============================================*/
 
@@ -80,15 +93,33 @@
     border-radius: 5px;
 }
 
-@media (min-width: 768px) {
-    #sidebar-wrapper {
-        margin-left: 0;
-    }
-    #page-content-wrapper {
-        min-width: 0;
-        width: 100%;
-    }
-    #wrapper.toggled #sidebar-wrapper {
-        margin-left: -15rem;
-    }
+.navbar {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 56px;
+}
+
+.nombreuser {
+    margin-right: 2rem;
+}
+
+.item-userdropdawn:hover {
+    background-color: #242931;
+    color: #fff;
+}
+
+.navbar-expand .navbar-nav .dropdown-menu {
+    top: 47px;
+    position: absolute;
+    left: -17px;
+    text-align: end;
+    margin: 0;
+    padding: 0;
+}
+
+.container-login {
+    height: 100%;
+    /*background-image: url("../assets/fondouniverso.gif");*/
+    background-size: cover;
+    background-repeat: no-repeat;
 }
