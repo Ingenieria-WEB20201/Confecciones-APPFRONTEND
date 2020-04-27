@@ -1,58 +1,60 @@
-<div class="d-flex" id="wrapper">
+<div id="container-login">
+    <div class="d-flex" id="wrapper">
+        <div id="sidebar-wrapper" *ngIf="isLoggedIn">
+            <div class="sidebar-heading">ConfeccionesApp</div>
+            <div class="list-group list-group-flush">
+                <div>
+                    <a href="/home" class="list-group-item sidebar-item " routerLinkActive="active" routerLink="home">Home</a>
+                </div>
 
-    <div id="sidebar-wrapper">
-        <div class="sidebar-heading">ConfeccionesApp</div>
-        <div class="list-group list-group-flush">
-            <div>
-                <a href="/home" class="list-group-item sidebar-item " routerLinkActive="active" routerLink="home">Home</a>
+                <div *ngIf="showAdminBoard">
+                    <a href="/admin" class="list-group-item sidebar-item " routerLinkActive="active" routerLink="admin">Admin Board</a>
+                </div>
+
+                <div *ngIf="showAdminBoard">
+                    <a href="/user" class="list-group-item sidebar-item" routerLinkActive="active" *ngIf="isLoggedIn" routerLink="user">User</a>
+                </div>
             </div>
 
-            <div *ngIf="showAdminBoard">
-                <a href="/admin" class="list-group-item sidebar-item " routerLinkActive="active" routerLink="admin">Admin Board</a>
-            </div>
         </div>
 
-    </div>
-    <div class="btn-inicio-sidebar" id="menu-toggle">&#9776;</div>
-    <div id="page-content-wrapper">
-        <nav class="navbar navbar-expand navbar-dark ">
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="btn-inicio-sidebar" id="menu-toggle">&#9776;</div>
+
+
+
+
+        <div id="page-content-wrapper">
+            <nav *ngIf="isLoggedIn" class="navbar navbar-expand navbar-dark ">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
-            <a href="#" class="navbar-brand"></a>
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item" *ngIf="showModeratorBoard" routerLinkActive="active">
-                    <a href="/mod" class="nav-link" routerLink="mod">Moderator Board</a>
-                </li>
-                <li class="nav-item" routerLinkActive="active">
-                    <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>
-                </li>
-            </ul>
 
-            <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
+                <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
 
-                <li class="nav-item" routerLinkActive="active">
-                    <a href="/login" class="nav-link" routerLink="login">Login</a>
-                </li>
-            </ul>
+                    <li class="nav-item" routerLinkActive="active">
+                        <a href="/login" class="nav-link" routerLink="login">Login</a>
+                    </li>
+                </ul>
 
-            <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
-                <li class="nav-item" routerLinkActive="active">
-                    <a href="/profile" class="nav-link" routerLink="profile">{{ username }}</a>
-                </li>
-                <li class="nav-item">
-                    <a href class="nav-link" (click)="logout()">LogOut</a>
-                </li>
-            </ul>
-        </nav>
+                <ul class="navbar-nav ml-auto nombreuser" *ngIf="isLoggedIn">
+                    <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle " id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{ username }}
+                    </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a href="/profile" class="dropdown-item tem-userdropdawn" routerLink="profile">{{ username }}</a>
+                            <a href class="dropdown-item item-userdropdawn" (click)="logout()">Cerrar sesión</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
 
-        <div class="container-fluid">
+            <div class="container-fluid">
 
-            <router-outlet></router-outlet>
+                <router-outlet></router-outlet>
+            </div>
         </div>
     </div>
-
-
 </div>
