@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductoService } from 'src/app/services/producto.service';
+import { CompraService } from 'src/app/services/compra.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { NgForm } from '@angular/forms';
 
@@ -23,7 +24,7 @@ export class CreateCompraComponent implements OnInit {
   activarCampos = false;
   activarOtrosCampos = false;
 
-  constructor(private router: Router, private tokenStorageService: TokenStorageService, private productoService: ProductoService) { }
+  constructor(private router: Router, private tokenStorageService: TokenStorageService, private productoService: ProductoService, private compraService: CompraService) { }
 
   ngOnInit(): void {
     this.compra.userid = this.tokenStorageService.getUser().id;
@@ -49,20 +50,20 @@ export class CreateCompraComponent implements OnInit {
   agregarProducto() {
     if (this.activarCampos) {
       this.productoNuevo = {
-        referencia : this.productoBuscado.referencia,
-        nombre : this.productoBuscado.nombre,
-        marca : this.productoBuscado.marca,
-        modelo : this.productoBuscado.modelo,
-        estado : this.productoBuscado.estado,
-        cantidadDisponible : this.productoBuscado.cantidadDisponible,
-        precioVenta : this.productoBuscado.precioVenta,
+        referencia: this.productoBuscado.referencia,
+        nombre: this.productoBuscado.nombre,
+        marca: this.productoBuscado.marca,
+        modelo: this.productoBuscado.modelo,
+        estado: this.productoBuscado.estado,
+        cantidadDisponible: this.productoBuscado.cantidadDisponible,
+        precioVenta: this.productoBuscado.precioVenta,
       };
       this.productosNuevos.push(this.productoNuevo);
     }
 
     this.productosAgrgadosCompleto.push(this.productoBuscado);
-    
-    
+
+
     this.productoCompra = {
       productoid: this.productoBuscado.referencia,
       precioUnitario: this.productoBuscado.precioUnitario,
@@ -76,11 +77,26 @@ export class CreateCompraComponent implements OnInit {
     this.compra.neto = this.compra.neto + this.productoCompra.precioNeto;
     this.activarCampos = false;
     this.activarOtrosCampos = false;
-    
+
   }
 
-  guardarCompra(){
-    console.log(this.compra);
+  guardarCompra() {
+    let fecha = new Date();
+    let dd = fecha.getDate();
+    let mm = fecha.getMonth() + 1;
+    let yyyy = fecha.getFullYear();
+
+
+    this.compra.fecha = `${dd}/${mm}/${yyyy}`;
+    this.productosNuevos.forEach(producto => {
+      this.productoService.create(producto).subscribe(data => {
+        console.log(data);
+      });
+    });
+    this.compraService.create(this.compra).subscribe(data => {
+      console.log(data);
+      this.router.navigate(['/compra']);
+    });
   }
 
 }

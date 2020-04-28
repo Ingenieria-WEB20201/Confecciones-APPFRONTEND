@@ -30,6 +30,9 @@ export class ListaComponent implements OnInit {
 
     this.detalle.items.forEach(element => {
       //Busqueda de nombre de cada producto
+      this.productoService.get(element.productoid).subscribe(data => {
+        console.log(data);
+      });
       element.nombre = 'nompre producto';
     });
   }

@@ -12,7 +12,13 @@ export class CompraService {
   constructor(private http: HttpClient) { }
 
   create(compra): Observable<any> {
-    return this.http.post(COMPRA_API + '/api/compra/', compra);
+    return this.http.post(COMPRA_API + '/api/compra/', {
+      neto: compra.neto,
+      fecha: compra.fecha,
+      userid: compra.userid,
+      almacenid: compra.almacenid,
+      itemCompra: compra.itemCompra
+    });
   }
 
   getAll(): Observable<any> {
