@@ -16,6 +16,8 @@ import { BoardUserComponent } from './components/board-user/board-user.component
 
 import { authInterceptorProviders } from './helpers/auth.interceptor';
 import { ListaComponent } from './components/lista/lista.component';
+import { SaleComponent } from './components/sale/sale.component';
+import { CreateSaleComponent } from './components/create-sale/create-sale.component';
 
 
 
@@ -29,7 +31,9 @@ import { ListaComponent } from './components/lista/lista.component';
     BoardAdminComponent,
     BoardModeratorComponent,
     BoardUserComponent,
-    ListaComponent
+    ListaComponent,
+    SaleComponent,
+    CreateSaleComponent
   ],
   imports: [
     BrowserModule,
