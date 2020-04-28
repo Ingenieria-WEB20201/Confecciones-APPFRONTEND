@@ -1,0 +1,145 @@
+<div class="registrar-compra">
+    <h1>Registrar Compra</h1>
+    <form #compraForm="ngForm">
+
+
+        <div class="contenedor">
+            <h2>Información</h2>
+            <div class="elementos-informacion">
+                <div class="elemento-info">
+                    <p>Código usuario:</p>
+                    <input type="text" disabled="disabled" required [(ngModel)]="compra.userid" name="userid" #userid>
+                </div>
+                <div class="elemento-info">
+                    <p>Código almacen:</p>
+                    <input type="text" required [(ngModel)]="compra.almacenid" name="almacenid" #almacenid>
+                </div>
+            </div>
+        </div>
+        <div class="contenedor">
+            <h2>Productos</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Cod</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Modelo</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Precio unitario</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Precio neto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let producto of productosAgrgadosCompleto">
+                        <th scope="row">{{producto.referencia}}</th>
+                        <td>{{producto.nombre}}</td>
+                        <td>{{producto.marca}}</td>
+                        <td>{{producto.modelo}}</td>
+                        <td>{{producto.estado}}</td>
+                        <td>{{producto.precioUnitario}}</td>
+                        <td>{{producto.cantidadDisponible}}</td>
+                        <td>{{producto.precioUnitario * producto.cantidadDisponible}}</td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Total:</th>
+                        <td>{{compra.neto}}</td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="botones">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#modalProducoCompra">
+                    Agregar producto
+                </button>
+                <button type="button" class="btn btn-primary" (click)="guardarCompra()">Registrar compra</button>
+            </div>
+
+
+        </div>
+    </form>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalProducoCompra" tabindex="-1" role="dialog" aria-labelledby="modalProducoCompraLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalProducoCompraLabel">Producto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="referencia dato-producto">
+                        <p>Código del producto: </p>
+                        <form>
+                            <input type="search" required [(ngModel)]="productoBuscado.referencia" name="codProducto" placeholder="" #codProducto>
+                            <button (click)="buscarProducto(codProducto.value)" class="btn btn-outline-primary btn-sm" type="button">Buscar</button>
+                        </form>
+                    </div>
+                    <hr>
+                    <h5>Información del producto</h5>
+                    <form #productoForm="ngForm">
+                        <div class="pares-datos">
+                            <div class="dato-producto">
+                                <p>Nombre: </p>
+                                <input type="text" [disabled]="!activarCampos" required [(ngModel)]="productoBuscado.nombre" name="nombreProducto" #nombreProducto>
+                            </div>
+                            <div class="dato-producto">
+                                <p>Marca: </p>
+                                <input type="text" [disabled]="!activarCampos" required [(ngModel)]="productoBuscado.marca" name="marcaProducto" #marcaProducto>
+                            </div>
+                        </div>
+                        <div class="pares-datos">
+                            <div class="dato-producto">
+                                <p>Modelo: </p>
+                                <input type="text" [disabled]="!activarCampos" required [(ngModel)]="productoBuscado.modelo" name="modeloProducto" #modeloProducto>
+                            </div>
+                            <div class="dato-producto">
+                                <p>Estado: </p>
+                                <select [disabled]="!activarCampos" required [(ngModel)]="productoBuscado.estado" name="estadoProducto" #ownerDni>
+                                    <option value="nuevo">Nuevo</option>
+                                    <option value="usado">Usado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pares-datos">
+                            <div class="dato-producto">
+                                <p>Precio unitario: </p>
+                                <input type="number" [disabled]="!activarOtrosCampos" required [(ngModel)]="productoBuscado.precioUnitario" name="precioUnitarioProducto" #precioUnitarioProducto>
+                            </div>
+                            <div class="dato-producto">
+                                <p>Cantidad: </p>
+                                <input type="number" [disabled]="!activarOtrosCampos" required [(ngModel)]="productoBuscado.cantidadDisponible" name="cantidadProducto" #cantidadProducto>
+                            </div>
+                        </div>
+                        <div class="pares-datos">
+                            <div class="dato-producto">
+                                <p>Precio venta: </p>
+                                <input type="number" [disabled]="!activarCampos" required [(ngModel)]="productoBuscado.precioVenta" name="precioVentaProducto" #precioVentaProducto>
+                            </div>
+                        </div>
+
+
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarProducto()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
