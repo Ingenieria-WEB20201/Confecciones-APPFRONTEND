@@ -1,0 +1,7 @@
+<div class="container">
+    <header class="jumbotron">
+        <p></p>
+        <app-lista (modificar)="modificarCompra($event)" [items]="elementos"></app-lista>
+        <button type="button" class="btn btn-outline-primary" [routerLink]="['/compra/registrar']">Nueva</button>
+    </header>
+</div>

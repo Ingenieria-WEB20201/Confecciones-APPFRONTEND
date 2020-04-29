@@ -1,0 +1,107 @@
+p {
+    margin: 0;
+    margin-right: 10px;
+}
+
+input {
+    width: 250px;
+    height: 30px;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    background-color: rgb(218, 221, 230);
+    border-radius: 5px;
+    padding: 0 0 0 10px;
+    /* box-shadow: -1px 6px 5px 0px rgba(0, 0, 0, 0.75); */
+    /* border: 0 solid black;
+    border-bottom-width: 1px; */
+}
+
+input:disabled {
+    background-color: rgb(182, 185, 192);
+}
+
+.contenedor {
+    /* max-width: 800px; */
+    width: 100%;
+    margin: auto;
+    margin-top: 2%;
+    /* display: flex;
+    justify-content: center; */
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 25px;
+    box-shadow: -1px 6px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.contenedor .elementos-informacion {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contenedor .elemento-info {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.contenedor .elemento-info p {
+    margin: 0;
+    margin-right: 10px;
+}
+
+.contenedor .elemento-info input {
+    width: 250px;
+    height: 30px;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    background-color: rgb(218, 221, 230);
+    border-radius: 5px;
+    padding: 0 0 0 10px;
+    /* box-shadow: -1px 6px 5px 0px rgba(0, 0, 0, 0.75); */
+    /* border: 0 solid black;
+    border-bottom-width: 1px; */
+}
+
+.contenedor .elemento-info input:disabled {
+    background-color: rgb(182, 185, 192);
+}
+
+.botones {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+
+/*=========Modal=========*/
+
+.modal-dialog {
+    max-width: 1000px;
+}
+
+.modal-body .dato-producto {
+    display: flex;
+    align-items: center;
+}
+
+.modal-body .referencia button {
+    margin-left: 10px;
+}
+
+.modal-body .pares-datos {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 7px;
+}
+
+.modal-body .pares-datos p {
+    width: 60px;
+}
+
+.modal-body .pares-datos .dato-producto select {
+    width: 250px;
+}
