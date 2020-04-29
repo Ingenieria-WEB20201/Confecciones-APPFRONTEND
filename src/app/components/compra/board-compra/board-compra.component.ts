@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from 'src/app/services/producto.service';
+import { CompraService } from 'src/app/services/compra.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,12 +12,12 @@ export class BoardCompraComponent implements OnInit {
 
   elementos: any = [];
 
-  constructor(private router: Router, private productoService: ProductoService) { }
+  constructor(private router: Router, private productoService: ProductoService,private compraService: CompraService) { }
 
   ngOnInit(): void {
-    this.productoService.getAll().subscribe(data => {
+    this.compraService.getAll().subscribe(data => {
       this.elementos = data;
-      console.log(this.elementos);
+      console.log(data);
     });
   }
 

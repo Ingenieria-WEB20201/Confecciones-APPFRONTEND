@@ -23,6 +23,10 @@ export class ProductoService {
     });
   }
 
+  // createMany(): Observable<any> {
+    
+  // }
+
   getAll(): Observable<any> {
     return this.http.get(PRODUCTO_API + '/api/productos');
   }
