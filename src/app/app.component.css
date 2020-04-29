@@ -30,6 +30,7 @@
     background-color: #2a303a;
     box-shadow: 2px 1px 7px -4px rgba(150, 150, 150, 1);
     text-decoration: none;
+    border-left: solid 7px #2a303a;
     color: #fff;
 }
 
@@ -43,14 +44,15 @@
 .active {
     background-color: #6b727e;
     color: #fff;
-    border-left: solid 7px #50B2C4;
+    border-left: solid 7px #0173bc;
+    ;
     text-decoration: none;
 }
 
 .btn-inicio-sidebar {
     width: 70px;
     height: 56px;
-    background-color: #1D6B88;
+    background-color: #0173bc;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -59,24 +61,13 @@
 }
 
 .btn-inicio-sidebar:hover {
-    background-color: rgba(29, 107, 136, 0.76);
+    background-color: #0e4466;
     color: #fff;
 }
 
-
-/*============================================================ Navbar ==============================================*/
-
-.navbar {
-    background-color: #1D6B88;
-}
-
-.navbar ul .nav-item {
-    transition: all 0.5s;
-}
-
-.navbar ul .nav-item.active {
-    background-color: #306d80;
-    border-radius: 5px;
+.btn-inicio-sidebar:active {
+    background-color: #0e4466;
+    color: #fff;
 }
 
 @media (min-width: 768px) {
@@ -90,4 +81,64 @@
     #wrapper.toggled #sidebar-wrapper {
         margin-left: -15rem;
     }
+}
+
+
+/*============================================================ Navbar ==============================================*/
+
+.navbar {
+    background-color: #0062a9;
+}
+
+.navbar ul .nav-item {
+    transition: all 0.5s;
+}
+
+.navbar ul .nav-item.active {
+    background-color: #108ddb;
+    border-radius: 5px;
+}
+
+.navbar {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 56px;
+}
+
+.nombreuser {
+    margin-right: 2rem;
+}
+
+.item-userdropdawn:hover {
+    background-color: #2a303a;
+    color: #fff;
+}
+
+.navbar-expand .navbar-nav .dropdown-menu {
+    top: 47px;
+    position: absolute;
+    left: -17px;
+    text-align: end;
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-user {
+    cursor: pointer;
+}
+
+.container-login {
+    height: 100%;
+    /*background-image: url("../assets/fondouniverso.gif");*/
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 4.5rem;
+    margin-top: 2.2em;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }
