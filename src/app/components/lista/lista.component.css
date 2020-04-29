@@ -1,0 +1,51 @@
+/*=======Facturas======*/
+
+#tabla-facturas {
+    width: 90%;
+    margin: auto;
+}
+
+#tabla-facturas .colum-cod {
+    width: 30%;
+}
+
+#tabla-facturas .colum-fecha {
+    width: 30%;
+}
+
+#tabla-facturas .colum-precio {
+    width: 30%;
+}
+
+#tabla-facturas .colum-acciones {
+    width: 10%;
+}
+
+svg {
+    display: none;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+svg:hover {
+    transform: scale(1.1);
+}
+
+.elementos-acciones {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#tabla-facturas tr:hover>td>div>svg {
+    display: block;
+}
+
+
+/*=========Modal=========*/
+
+.modal-dialog {
+    max-width: 1000px;
+}
