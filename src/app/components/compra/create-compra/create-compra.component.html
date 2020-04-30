@@ -1,19 +1,21 @@
 <div class="registrar-compra">
     <h1>Registrar Compra</h1>
     <a routerLink="/compra">Cancelar</a>
-    <form #compraForm="ngForm">
-
-
+    <form>
         <div class="contenedor">
             <h2>Información</h2>
             <div class="elementos-informacion">
                 <div class="elemento-info">
-                    <p>Código usuario:</p>
-                    <input type="text" disabled="disabled" required [(ngModel)]="compra.userid" name="userid" #userid>
+                    <p>Código almacen:</p>
+                    <select required [(ngModel)]="compra.almacenid" name="almacenid" #almacenid>
+                        <option [ngValue]="null" selected></option>
+                        <option *ngFor="let almacen of listaAlmacenes" [ngValue]="almacen.id" >{{almacen.name}}</option>
+                    </select>
+                    <!-- <input type="text" required [(ngModel)]="compra.almacenid" name="almacenid" #almacenid> -->
                 </div>
                 <div class="elemento-info">
-                    <p>Código almacen:</p>
-                    <input type="text" required [(ngModel)]="compra.almacenid" name="almacenid" #almacenid>
+                    <p>Código usuario:</p>
+                    <input type="text" disabled="disabled" required [(ngModel)]="compra.userid" name="userid" #userid>
                 </div>
             </div>
         </div>
@@ -30,6 +32,7 @@
                         <th scope="col">Precio unitario</th>
                         <th scope="col">Cantidad</th>
                         <th scope="col">Precio neto</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +45,26 @@
                         <td>{{producto.precioUnitario}}</td>
                         <td>{{producto.cantidadDisponible}}</td>
                         <td>{{producto.precioUnitario * producto.cantidadDisponible}}</td>
+                        <td>
+                            <div class="elementos-acciones">
+                                <!-- <svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"
+                                        clip-rule="evenodd" />
+                                    <path fill-rule="evenodd"
+                                        d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z"
+                                        clip-rule="evenodd" />
+                                </svg> -->
+
+                                <svg (click)="eliminarProducto(producto.referencia)" class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z" />
+                                    <path fill-rule="evenodd"
+                                        d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <th></th>
@@ -52,6 +75,7 @@
                         <th></th>
                         <th>Total:</th>
                         <td>{{compra.neto}}</td>
+                        <td></td>
 
                     </tr>
 
@@ -62,10 +86,8 @@
                 <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#modalProducoCompra">
                     Agregar producto
                 </button>
-                <button type="button" class="btn btn-primary" (click)="guardarCompra()">Registrar compra</button>
+                <button type="button" class="btn btn-primary" (click)="guardarCompra()" [disabled]="(productosCompra.length == 0 && compra.almacenid==null)">Registrar compra</button>
             </div>
-
-
         </div>
     </form>
 
@@ -76,7 +98,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalProducoCompraLabel">Producto</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="limbiarCampos()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -86,11 +108,12 @@
                         <form>
                             <input type="search" required [(ngModel)]="productoBuscado.referencia" name="codProducto" placeholder="" #codProducto>
                             <button (click)="buscarProducto(codProducto.value)" class="btn btn-outline-primary btn-sm" type="button">Buscar</button>
+
                         </form>
                     </div>
                     <hr>
                     <h5>Información del producto</h5>
-                    <form #productoForm="ngForm">
+                    <form>
                         <div class="pares-datos">
                             <div class="dato-producto">
                                 <p>Nombre: </p>
@@ -121,7 +144,7 @@
                             </div>
                             <div class="dato-producto">
                                 <p>Cantidad: </p>
-                                <input type="number" [disabled]="!activarOtrosCampos" required [(ngModel)]="productoBuscado.cantidadDisponible" name="cantidadProducto" #cantidadProducto>
+                                <input type="number" [disabled]="!activarOtrosCampos" required [(ngModel)]="cantidad" name="cantidadProducto" #cantidadProducto>
                             </div>
                         </div>
                         <div class="pares-datos">
@@ -137,7 +160,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limbiarCampos()">Close</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarProducto()">Save changes</button>
                 </div>
             </div>
