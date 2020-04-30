@@ -14,3 +14,10 @@
 .btn-default:hover{
     background-color: #acabab;
 }
+.modal-lg {
+    max-width: 60%;
+}
+
+#cantidad {
+    width: 30%;
+}

@@ -58,17 +58,24 @@
                     <td>$30,000.00</td>
                     <td>1</td>
                   </tr>
-
+                  <tr *ngFor="let producto of productosNuevos">
+                    <th scope="row">{{producto.referencia}}</th>
+                    <td>{{producto.nombre}}</td>
+                    <td>{{producto.precioVenta |currency}}</td>
+                    <td>{{f.value.first}}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
 
             <button type="submit" class="btn btn-primary">Guardar</button>
+
+
             <!-- Modal -->
             <div class="modal fade" id="listaProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content" id="ancho">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Listado de productos</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -77,11 +84,13 @@
                   </div>
                   <div class="modal-body">
                     <!-- <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="buscarProducto"> -->
+                    <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
                     <table class="table">
                       <thead>
                         <tr>
                           <th scope="col">Producto</th>
                           <th scope="col">Precio</th>
+                          <th scope="col">Cantidad</th>
                           <th scope="col">Acción</th>
                         </tr>
                       </thead>
@@ -90,12 +99,16 @@
                           <td>{{item.nombre}}</td>
                           <td>{{item.precioVenta |currency}}</td>
                           <td>
-                            <button type="button" class="btn btn-sm btn-outline-primary">Agregar producto</button>
+                            <input type="number" name="first" ngModel required #first="ngModel" >
+                          </td>
+                          <td>
+                            <button type="submit" class="btn btn-sm btn-outline-primary" data-dismiss="modal" (click)="saveProduct(item, f)">Agregar producto</button>
                           </td>
                         </tr>
 
                       </tbody>
                     </table>
+                  </form>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

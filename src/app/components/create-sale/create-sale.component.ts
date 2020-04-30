@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProductoService } from 'src/app/services/producto.service';
+import { ProductoService } from '../../services/producto.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-create-sale',
@@ -8,40 +9,82 @@ import { ProductoService } from 'src/app/services/producto.service';
 })
 export class CreateSaleComponent implements OnInit {
 
+  cantidad: number;
+
+  productosCompra: any = [];
+  productoCompra: any = {};
+  productosNuevos: any = [];
+  productoNuevo: any = {};
+  productosAgrgadosCompleto: any = [];
+  productoBuscado: any = {};
+  compra: any = {
+    neto: 0
+  };
+  activarCampos = false;
+  activarOtrosCampos = false;
+  
+
   items: any[] = [];
   detalle: any;
   content: string;
   elementos = [];
 
   constructor(private productoService: ProductoService) {
-      this.items = [
-        {
-            referencia: "10",
-            nombre: "auto",
-            marca: "marca",
-            modelo: "modelo",
-            estado: "estado",
-            cantidadDisponible: 5,
-            precioVenta: 28000000,
-            createdAt: "2020-04-27T04:17:11.000Z",
-            updatedAt: "2020-04-27T04:17:11.000Z"
-        },
-        {
-            referencia: "1",
-            nombre: "maquina1",
-            marca: "marca",
-            modelo: "modelo",
-            estado: "estado",
-            cantidadDisponible: 4,
-            precioVenta: 30000,
-            createdAt: "2020-04-25T23:07:31.000Z",
-            updatedAt: "2020-04-27T05:45:51.000Z"
-        }
+    this.items = [
+      {
+        referencia: "10",
+        nombre: "auto",
+        marca: "marca",
+        modelo: "modelo",
+        estado: "estado",
+        cantidadDisponible: 5,
+        precioVenta: 28000000,
+        createdAt: "2020-04-27T04:17:11.000Z",
+        updatedAt: "2020-04-27T04:17:11.000Z"
+      },
+      {
+        referencia: "1",
+        nombre: "maquina1",
+        marca: "marca",
+        modelo: "modelo",
+        estado: "estado",
+        cantidadDisponible: 4,
+        precioVenta: 30000,
+        createdAt: "2020-04-25T23:07:31.000Z",
+        updatedAt: "2020-04-27T05:45:51.000Z"
+      }
     ]
-    
-   }
+
+  }
 
   ngOnInit(): void {
+  }
+
+  onSubmit(f: NgForm) {
+    console.log(f.value);
+  }
+  saveProduct(producto, f:NgForm) {
+    
+    console.log(f.value.first);
+    this.productosNuevos.push(producto);
+    /* 
+    this.productosAgrgadosCompleto.push(this.productoBuscado);
+
+
+    this.productoCompra = {
+      productoid: this.productoBuscado.referencia,
+      precioUnitario: this.productoBuscado.precioUnitario,
+      cantidad: this.productoBuscado.cantidadDisponible,
+      precioNeto: (this.productoBuscado.precioUnitario * this.productoBuscado.cantidadDisponible)
+    };
+    this.productosCompra.push(this.productoCompra);
+    this.productoBuscado = {};
+
+    this.compra.itemCompra = this.productosCompra;
+    this.compra.neto = this.compra.neto + this.productoCompra.precioNeto;
+    this.activarCampos = false;
+    this.activarOtrosCampos = false; */
+
   }
 
   /* 
