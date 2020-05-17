@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductoService } from 'src/app/services/producto.service';
 import { CompraService } from 'src/app/services/compra.service';
+import { AlmacenService } from 'src/app/services/almacen.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { NgForm } from '@angular/forms';
 
@@ -11,7 +12,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./create-compra.component.css']
 })
 export class CreateCompraComponent implements OnInit {
-
+  listaAlmacenes: any = [];
   productosCompra: any = [];
   productoCompra: any = {};
   productosNuevos: any = [];
@@ -23,20 +24,26 @@ export class CreateCompraComponent implements OnInit {
   };
   activarCampos = false;
   activarOtrosCampos = false;
+  productosNuevosGuardados = 0;
+  cantidad = 0;
 
-  constructor(private router: Router, private tokenStorageService: TokenStorageService, private productoService: ProductoService, private compraService: CompraService) { }
+  constructor(private router: Router, private tokenStorageService: TokenStorageService, private productoService: ProductoService, 
+    private compraService: CompraService, private almacenService: AlmacenService) { }
 
   ngOnInit(): void {
     this.compra.userid = this.tokenStorageService.getUser().id;
-  }
-
-  save(form: NgForm) {
-
+    this.almacenService.getAll().subscribe(data => {
+      this.listaAlmacenes = data;
+    });
   }
 
   buscarProducto(referencia: string) {
+    this.cantidad = 0;
+    this.productoBuscado = {};
+    this.activarCampos = false;
+    this.activarOtrosCampos = false;
+    this.productoBuscado.referencia = referencia;
     this.productoService.get(referencia).subscribe(producto => {
-      //this.productoBuscado = producto[0];
       if (producto[0]) {
         this.productoBuscado = producto[0];
         this.activarOtrosCampos = true;
@@ -48,6 +55,8 @@ export class CreateCompraComponent implements OnInit {
   }
 
   agregarProducto() {
+    this.productoBuscado.cantidadDisponible = this.cantidad;
+
     if (this.activarCampos) {
       this.productoNuevo = {
         referencia: this.productoBuscado.referencia,
@@ -60,7 +69,6 @@ export class CreateCompraComponent implements OnInit {
       };
       this.productosNuevos.push(this.productoNuevo);
     }
-
     this.productosAgrgadosCompleto.push(this.productoBuscado);
 
 
@@ -77,7 +85,15 @@ export class CreateCompraComponent implements OnInit {
     this.compra.neto = this.compra.neto + this.productoCompra.precioNeto;
     this.activarCampos = false;
     this.activarOtrosCampos = false;
+    this.cantidad = 0;
+  }
 
+  eliminarProducto(item: any) {
+    this.productosAgrgadosCompleto = this.productosAgrgadosCompleto.filter( producto => producto.referencia != item );    
+    this.compra.neto = this.compra.neto - this.productosCompra.filter( producto => producto.productoid == item )[0].precioNeto;
+    this.productosCompra = this.productosCompra.filter( producto => producto.productoid != item );
+    this.productosNuevos = this.productosNuevos.filter( producto => producto.productoid != item );
+  // productosNuevos: any = [];
   }
 
   guardarCompra() {
@@ -85,18 +101,37 @@ export class CreateCompraComponent implements OnInit {
     let dd = fecha.getDate();
     let mm = fecha.getMonth() + 1;
     let yyyy = fecha.getFullYear();
+    this.compra.fecha = mm + '/' + dd + '/' + yyyy;
 
-
-    this.compra.fecha = `${dd}/${mm}/${yyyy}`;
-    this.productosNuevos.forEach(producto => {
-      this.productoService.create(producto).subscribe(data => {
-        console.log(data);
+    if (this.productosNuevos.length > 0) {
+      this.productosNuevos.forEach(producto => {
+        this.productoService.create(producto).subscribe(data => {
+          this.productosNuevosGuardados++;
+          console.log(data);
+          if (this.productosNuevosGuardados === this.productosNuevos.length) {
+            this.compraService.create(this.compra).subscribe(data => {
+              console.log(data);
+              this.productosNuevosGuardados = 0;
+              this.router.navigate(['/compra']);
+            });
+          }
+        });
       });
-    });
-    this.compraService.create(this.compra).subscribe(data => {
-      console.log(data);
-      this.router.navigate(['/compra']);
-    });
+    } else {
+      this.compraService.create(this.compra).subscribe(data => {
+        console.log(data);
+        this.router.navigate(['/compra']);
+      });
+    }
   }
+
+  limbiarCampos(){
+    this.productoBuscado = {};
+    this.cantidad = 0;
+    this.activarCampos = false;
+    this.activarOtrosCampos = false;
+  }
+
+
 
 }
