@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -19,6 +20,7 @@ import { ListaComponent } from './components/lista/lista.component';
 import { BoardCompraComponent } from './components/compra/board-compra/board-compra.component';
 import { CreateCompraComponent } from './components/compra/create-compra/create-compra.component';
 import { UpdateCompraComponent } from './components/compra/update-compra/update-compra.component';
+import { ListEmpleadosComponent } from './components/list-empleados/list-empleados.component';
 
 
 
@@ -35,13 +37,15 @@ import { UpdateCompraComponent } from './components/compra/update-compra/update-
     ListaComponent,
     BoardCompraComponent,
     CreateCompraComponent,
-    UpdateCompraComponent
+    UpdateCompraComponent,
+    ListEmpleadosComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SweetAlert2Module.forRoot(),
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
