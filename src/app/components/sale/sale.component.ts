@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { SaleService } from '../../services/sale.service';
 
 @Component({
   selector: 'app-sale',
@@ -9,10 +10,10 @@ import { UserService } from '../../services/user.service';
 export class SaleComponent implements OnInit {
 
   content: string;
-  elementos = [];
+  elementos: any = [];
 
-  constructor(private userService: UserService) {
-      this.elementos = [
+  constructor(private userService: UserService, private saleService: SaleService) {
+      /* this.elementos = [
         {
           id: 1,
           neto: 50,
@@ -52,18 +53,14 @@ export class SaleComponent implements OnInit {
           }
           ]
         }
-      ];
+      ]; */
    }
 
   ngOnInit(): void {
-    this.userService.getPublicContent().subscribe(
-      data => {
-        this.content = data;
-      },
-      err => {
-        this.content = JSON.parse(err.error).message;
-      }
-    );
+    this.saleService.getByAlmacenId('1').subscribe(data => {
+      this.elementos = data;
+      console.log(data);
+    })
   }
 
   eventoDeTabla(cod: String){
