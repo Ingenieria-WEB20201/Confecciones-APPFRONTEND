@@ -18,6 +18,9 @@ import { authInterceptorProviders } from './helpers/auth.interceptor';
 import { ListaComponent } from './components/lista/lista.component';
 import { SaleComponent } from './components/sale/sale.component';
 import { CreateSaleComponent } from './components/create-sale/create-sale.component';
+import { BoardCompraComponent } from './components/compra/board-compra/board-compra.component';
+import { CreateCompraComponent } from './components/compra/create-compra/create-compra.component';
+import { UpdateCompraComponent } from './components/compra/update-compra/update-compra.component';
 
 
 
@@ -32,6 +35,9 @@ import { CreateSaleComponent } from './components/create-sale/create-sale.compon
     BoardModeratorComponent,
     BoardUserComponent,
     ListaComponent,
+    BoardCompraComponent,
+    CreateCompraComponent,
+    UpdateCompraComponent
     SaleComponent,
     CreateSaleComponent
   ],

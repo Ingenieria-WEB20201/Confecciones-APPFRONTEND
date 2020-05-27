@@ -31,3 +31,8 @@ a {
 label {
     font-family: 'Roboto', sans-serif;
 }
+
+.cabezote {
+    max-width: 1365px;
+    width: 100%;
+}

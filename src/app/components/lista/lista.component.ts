@@ -21,7 +21,7 @@ export class ListaComponent implements OnInit {
 
   verDetalles(item: String) {
     this.detalle = item;
-    this.detalle.nombreUser = 'Nombre user';
+    // this.detalle.nombreUser = 'Nombre user';
     if (this.detalle.hasOwnProperty('itemVenta')) {
       this.detalle.items = this.detalle.itemVenta;
     } else {
@@ -30,7 +30,11 @@ export class ListaComponent implements OnInit {
 
     this.detalle.items.forEach(element => {
       //Busqueda de nombre de cada producto
-      element.nombre = 'nompre producto';
+      this.productoService.get(element.productoid).subscribe(data => {
+        element.nombre = data[0].nombre;
+        console.log(data);
+      });
+      // element.nombre = 'nompre producto';
     });
   }
 
