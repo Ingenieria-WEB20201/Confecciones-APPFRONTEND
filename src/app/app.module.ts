@@ -37,7 +37,7 @@ import { UpdateCompraComponent } from './components/compra/update-compra/update-
     ListaComponent,
     BoardCompraComponent,
     CreateCompraComponent,
-    UpdateCompraComponent
+    UpdateCompraComponent,
     SaleComponent,
     CreateSaleComponent
   ],
