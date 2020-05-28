@@ -18,14 +18,18 @@ export class CreateCompraComponent implements OnInit {
   productosNuevos: any = [];
   productoNuevo: any = {};
   productosAgrgadosCompleto: any = [];
-  productoBuscado: any = {};
+  productoBuscado: any = {
+    estado: null
+  };
   compra: any = {
     neto: 0
   };
-  activarCampos = false;
-  activarOtrosCampos = false;
+  esProductoNuevo = false;
+  activarCamposCompra = false;
   productosNuevosGuardados = 0;
   cantidad = 0;
+  infoProducCompleta = true;
+  infoCompraCompleta = true;
 
   constructor(private router: Router, private tokenStorageService: TokenStorageService, private productoService: ProductoService, 
     private compraService: CompraService, private almacenService: AlmacenService) { }
@@ -37,29 +41,53 @@ export class CreateCompraComponent implements OnInit {
     });
   }
 
-  buscarProducto(referencia: string) {
-    this.cantidad = 0;
-    this.productoBuscado = {};
-    this.activarCampos = false;
-    this.activarOtrosCampos = false;
-    this.productoBuscado.referencia = referencia;
+  buscarProducto(referencia: string, estado: string) {
+    let referenciaAux: string;
+    this.limbiarCampos();
+    if (estado === 'nuevo') {
+      referenciaAux = this.productoService.codificarReferencia(referencia, 'usado');
+    } else {
+      referenciaAux = this.productoService.codificarReferencia(referencia, 'nuevo');
+    }
+    referencia = this.productoService.codificarReferencia(referencia, estado);
+
     this.productoService.get(referencia).subscribe(producto => {
-      if (producto[0]) {
+      if (producto.length > 0) {
         this.productoBuscado = producto[0];
-        this.activarOtrosCampos = true;
       } else {
-        this.activarCampos = true;
-        this.activarOtrosCampos = true;
+        this.productoService.get(referenciaAux).subscribe(productoAux => {
+          if (productoAux.length > 0) {
+            this.productoBuscado.nombre = productoAux[0].nombre;
+            this.productoBuscado.marca = productoAux[0].marca;
+            this.productoBuscado.modelo = productoAux[0].modelo;
+          }
+          this.esProductoNuevo = true;
+        });
       }
+      this.productoBuscado.referencia = this.productoService.decodificarReferencia(referencia).referencia;
+      this.productoBuscado.estado = estado;
+      this.activarCamposCompra = true;
     });
+  }
+
+  verificarCampos() {
+    if (this.productoBuscado.nombre != '' && this.productoBuscado.marca != '' && this.productoBuscado.modelo != '') {
+      this.infoProducCompleta = true;
+    } else {
+      this.infoProducCompleta = false;
+    }
+    console.log(this.productoBuscado.precioUnitario);
   }
 
   agregarProducto() {
     this.productoBuscado.cantidadDisponible = this.cantidad;
+    // const productoBuscadoAux = this.productoBuscado;
+    // productoBuscadoAux.referencia = this.productoService.codificarReferencia(productoBuscadoAux.referencia, this.productoBuscado.estado);
+    this.eliminarProducto(this.productoBuscado);
 
-    if (this.activarCampos) {
+    if (this.esProductoNuevo) {
       this.productoNuevo = {
-        referencia: this.productoBuscado.referencia,
+        referencia: this.productoService.codificarReferencia(this.productoBuscado.referencia, this.productoBuscado.estado),
         nombre: this.productoBuscado.nombre,
         marca: this.productoBuscado.marca,
         modelo: this.productoBuscado.modelo,
@@ -70,47 +98,39 @@ export class CreateCompraComponent implements OnInit {
       this.productosNuevos.push(this.productoNuevo);
     }
     this.productosAgrgadosCompleto.push(this.productoBuscado);
-
-
     this.productoCompra = {
-      productoid: this.productoBuscado.referencia,
+      productoid: this.productoService.codificarReferencia(this.productoBuscado.referencia, this.productoBuscado.estado),
       precioUnitario: this.productoBuscado.precioUnitario,
       cantidad: this.productoBuscado.cantidadDisponible,
       precioNeto: (this.productoBuscado.precioUnitario * this.productoBuscado.cantidadDisponible)
     };
     this.productosCompra.push(this.productoCompra);
-    this.productoBuscado = {};
-
     this.compra.itemCompra = this.productosCompra;
     this.compra.neto = this.compra.neto + this.productoCompra.precioNeto;
-    this.activarCampos = false;
-    this.activarOtrosCampos = false;
-    this.cantidad = 0;
+
+    this.limbiarCampos();
   }
 
   eliminarProducto(item: any) {
-    this.productosAgrgadosCompleto = this.productosAgrgadosCompleto.filter( producto => producto.referencia != item );    
-    this.compra.neto = this.compra.neto - this.productosCompra.filter( producto => producto.productoid == item )[0].precioNeto;
-    this.productosCompra = this.productosCompra.filter( producto => producto.productoid != item );
-    this.productosNuevos = this.productosNuevos.filter( producto => producto.productoid != item );
-  // productosNuevos: any = [];
+    this.productosAgrgadosCompleto = this.productosAgrgadosCompleto
+      .filter(producto => ((producto.referencia != item.referencia) || (producto.estado != item.estado)));
+    const ref = this.productoService.codificarReferencia(item.referencia, item.estado);
+    const productoCompraEliminar = this.productosCompra.filter(producto => producto.productoid == ref);
+    this.compra.neto = this.compra.neto - (productoCompraEliminar.length > 0 ? productoCompraEliminar[0].precioNeto : 0);
+    this.productosCompra = this.productosCompra.filter(producto => producto.productoid != ref);
+    this.productosNuevos = this.productosNuevos.filter(producto => producto.referencia != ref);
+
   }
 
   guardarCompra() {
-    let fecha = new Date();
-    let dd = fecha.getDate();
-    let mm = fecha.getMonth() + 1;
-    let yyyy = fecha.getFullYear();
-    this.compra.fecha = mm + '/' + dd + '/' + yyyy;
+    this.compra.fecha = this.obtenerFecha();
 
     if (this.productosNuevos.length > 0) {
       this.productosNuevos.forEach(producto => {
         this.productoService.create(producto).subscribe(data => {
           this.productosNuevosGuardados++;
-          console.log(data);
           if (this.productosNuevosGuardados === this.productosNuevos.length) {
             this.compraService.create(this.compra).subscribe(data => {
-              console.log(data);
               this.productosNuevosGuardados = 0;
               this.router.navigate(['/compra']);
             });
@@ -119,17 +139,26 @@ export class CreateCompraComponent implements OnInit {
       });
     } else {
       this.compraService.create(this.compra).subscribe(data => {
-        console.log(data);
         this.router.navigate(['/compra']);
       });
     }
   }
 
-  limbiarCampos(){
-    this.productoBuscado = {};
+  obtenerFecha() {
+    const fecha = new Date();
+    const dd = fecha.getDate();
+    const mm = fecha.getMonth() + 1;
+    const yyyy = fecha.getFullYear();
+    return mm + '/' + dd + '/' + yyyy;
+  }
+
+  limbiarCampos() {
+    this.productoBuscado = {
+      estado: null
+    };
     this.cantidad = 0;
-    this.activarCampos = false;
-    this.activarOtrosCampos = false;
+    this.esProductoNuevo = false;
+    this.activarCamposCompra = false;
   }
 
 

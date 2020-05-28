@@ -35,4 +35,15 @@ export class ProductoService {
     return this.http.put(PRODUCTO_API + '/api/productos', producto);
   }
 
+  codificarReferencia(referencia: string, estado: string): string{
+    return estado.charAt(0).concat(referencia);
+  }
+
+  decodificarReferencia(referencia: string) {
+    return {
+      referencia: referencia.slice(1),
+      estado: referencia.charAt(0) === 'n' ? 'nuevo' : 'usado'
+    };
+  }
+
 }
