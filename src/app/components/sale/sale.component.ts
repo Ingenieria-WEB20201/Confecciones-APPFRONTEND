@@ -59,7 +59,6 @@ export class SaleComponent implements OnInit {
   ngOnInit(): void {
     this.saleService.getByAlmacenId('1').subscribe(data => {
       this.elementos = data;
-      console.log(data);
     })
   }
 

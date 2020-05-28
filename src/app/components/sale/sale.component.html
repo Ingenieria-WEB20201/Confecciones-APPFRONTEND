@@ -1,6 +1,6 @@
 <div class="container">
     <header class="jumbotron">
-        <p>{{ content }}</p>
+        <h1>Ventas</h1>
         <app-lista (modificar)="eventoDeTabla($event)" [items]="elementos"></app-lista>
         <button type="button" class="btn btn-outline-primary" [routerLink] = "['/create-sale']">Crear</button>
     </header>
