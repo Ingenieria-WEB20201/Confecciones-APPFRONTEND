@@ -1,77 +1,190 @@
-<div class="registrar">
-    <div class="card mb-3" style="max-width: 1000px;">
-        <div class="row no-gutters">
-            <div class="col-md-7 col-img">
-                <img class="img-registro" src="../../../assets/registro.jpg" alt="">
+<!-- Button trigger modal -->
+<a class="nav-register" data-toggle="modal" data-target="#exampleModal">
+    <svg class="bi bi-person-plus" style="color: #1e7e34;margin-right: 0.5em;" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M11 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM1.022 13h9.956a.274.274 0 00.014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 00.022.004zm9.974.056v-.002.002zM6 7a2 2 0 100-4 2 2 0 000 4zm3-2a3 3 0 11-6 0 3 3 0 016 0zm4.5 0a.5.5 0 01.5.5v2a.5.5 0 01-.5.5h-2a.5.5 0 010-1H13V5.5a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M13 7.5a.5.5 0 01.5-.5h2a.5.5 0 010 1H14v1.5a.5.5 0 01-1 0v-2z" clip-rule="evenodd"/>
+</svg> Registrar usuario
+</a>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registro de usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
             </div>
-            <div class="col-md-5">
-                <div class="card-body">
-                    <h3>Registro de usuario</h3>
-                    <br>
+            <div class="modal-body">
+                <form class="row" *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
 
-                    <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" name="username" [(ngModel)]="form.username" required minlength="3" maxlength="20" #username="ngModel" />
-                            <div class="alert-danger" *ngIf="f.submitted && username.invalid">
-                                <div *ngIf="username.errors.required">Username is required</div>
-                                <div *ngIf="username.errors.minlength">
-                                    Username must be at least 3 characters
-                                </div>
-                                <div *ngIf="username.errors.maxlength">
-                                    Username must be at most 20 characters
-                                </div>
+                    <div class="form-group col-md-6">
+                        <label for="username">Nombres y apellidos</label>
+                        <input type="text" class="form-control" name="name" [(ngModel)]="form.name" required minlength="3" maxlength="20" #name="ngModel" />
+                        <div class="alert-danger" *ngIf="f.submitted && name.invalid">
+                            <div *ngIf="name.errors.required">campo requerido</div>
+                            <div *ngIf="name.errors.minlength">
+                                Username must be at least 3 characters
+                            </div>
+                            <div *ngIf="name.errors.maxlength">
+                                Username must be at most 20 characters
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" name="email" [(ngModel)]="form.email" required email #email="ngModel" />
-                            <div class="alert-danger" *ngIf="f.submitted && email.invalid">
-                                <div *ngIf="email.errors.required">Email is required</div>
-                                <div *ngIf="email.errors.email">
-                                    Email must be a valid email address
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required minlength="6" #password="ngModel" />
-                            <div class="alert-danger" *ngIf="f.submitted && password.invalid">
-                                <div *ngIf="password.errors.required">Password is required</div>
-                                <div *ngIf="password.errors.minlength">
-                                    Password must be at least 6 characters
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group ">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="roles">Rol</label>
-                                </div>
-                                <select class="custom-select" id="roles" [(ngModel)]="form.rol" name="rol" required #rol="ngModel">
-                      <option [ngValue]="'user'" selected="true">Usuario</option>
-                      <option [ngValue]="'admin'">Administrador</option>
-                      <option [ngValue]="'tercero'">Tercero</option>
-                  </select>
-                            </div>
-                            <div class="alert-danger" *ngIf="f.submitted && rol.invalid">
-                                <div *ngIf="rol.errors.required">Rol is required</div>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <button class="btn btn-primary btn-block">Sign Up</button>
-                        </div>
-
-                        <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
-                            Signup failed!<br />{{ errorMessage }}
-                        </div>
-                    </form>
-
-                    <div class="alert alert-success" *ngIf="isSuccessful">
-                        Your registration is successful!
                     </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" [(ngModel)]="form.email" required email #email="ngModel" />
+                        <div class="alert-danger" *ngIf="f.submitted && email.invalid">
+                            <div *ngIf="email.errors.required">campo requerido</div>
+                            <div *ngIf="email.errors.email">
+                                Email must be a valid email address
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" name="username" [(ngModel)]="form.username" required minlength="3" maxlength="20" #username="ngModel" />
+                        <div class="alert-danger" *ngIf="f.submitted && username.invalid">
+                            <div *ngIf="username.errors.required">campo requerido</div>
+                            <div *ngIf="username.errors.minlength">
+                                Username must be at least 3 characters
+                            </div>
+                            <div *ngIf="username.errors.maxlength">
+                                Username must be at most 20 characters
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group col-md-6">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required minlength="6" #password="ngModel" />
+                        <div class="alert-danger" *ngIf="f.submitted && password.invalid">
+                            <div *ngIf="password.errors.required">campo requerido</div>
+                            <div *ngIf="password.errors.minlength">
+                                Password must be at least 6 characters
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="input-group ">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="roles">Rol</label>
+                            </div>
+                            <select class="custom-select" id="roles" [(ngModel)]="form.role" name="role" required #role="ngModel">
+          <option [ngValue]="'user'" selected="true">Usuario</option>
+          <option [ngValue]="'admin'">Administrador</option>
+          <option [ngValue]="'tercero'">Tercero</option>
+      </select>
+                        </div>
+                        <div class="alert-danger" *ngIf="f.submitted && role.invalid">
+                            <div *ngIf="role.errors.required">campo requerido</div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-6 row">
+                        <div class="col-sm-2">Estado</div>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="gridCheck1" name="enable" [(ngModel)]="form.enable" required enable #enable="ngModel">
+                                <label class="form-check-label" for="gridCheck1">
+                          Habilitado
+                        </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <fieldset class="form-group col-md-12">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar1" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar1.png" alt="">
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar2" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar2.png" alt="">
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar3" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar3.png" alt="">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar4" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar4.png" alt="">
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar5" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar5.png" alt="">
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar6" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar6.png" alt="">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar7" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar7.png" alt="">
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar8" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar8.png" alt="">
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar9" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar9.png" alt="">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar10" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar10.png" alt="">
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar11" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar11.png" alt="">
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" value="avatar12" name="avatar" [(ngModel)]="form.avatar" required #avatar="ngModel">
+                                    <img class="icon-avatar" src="../../../assets/Avatares/Avatar12.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert-danger" *ngIf="f.submitted && avatar.invalid">
+                            <div *ngIf="avatar.errors.required">campo requerido</div>
+
+                        </div>
+                    </fieldset>
+
+
+                    <div class="form-group form-bton col-sm-12">
+                        <button class="registrar-btn" (click)="onSubmit()" data-dismiss="modal">Registrar usuario</button>
+                    </div>
+
+                    <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+                        Signup failed!<br />{{ errorMessage }}
+                    </div>
+                </form>
+
+                <div class="alert alert-success" *ngIf="isSuccessful">
+                    Your registration is successful!
                 </div>
             </div>
         </div>
