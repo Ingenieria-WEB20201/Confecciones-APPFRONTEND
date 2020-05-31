@@ -15,6 +15,7 @@ import { SaleService } from '../../services/sale.service';
 export class CreateSaleComponent implements OnInit {
 
   cantidad: number;
+  oldCant: number;
   listaAlmacenes: any = [];
   productosVenta: any = [];
   productoVenta: any = {};
@@ -26,42 +27,70 @@ export class CreateSaleComponent implements OnInit {
   items: any[] = [];
   detalle: any;
   elementos = [];
+  almacenSelect: boolean = false;
 
+  aux: any;
   constructor(private router: Router, private tokenStorageService: TokenStorageService, private almacenService: AlmacenService,
     private productoService: ProductoService, private prodAlmacenService: ProductoAlmacenService, private saleService: SaleService) { }
 
   ngOnInit(): void {
     this.venta.userid = this.tokenStorageService.getUser().id;
     //this.almacenService.getAll().subscribe(data => {
-    this.almacenService.get(this.venta.userid).subscribe(data => {
+    this.almacenService.getByUser(this.venta.userid).subscribe(data => {
       this.listaAlmacenes = data;
-      console.log(data);
     });
 
-    this.prodAlmacenService.get('1').subscribe(data => {
-      this.items = data;
-    });
   }
 
   onSubmit(f: NgForm) {
     console.log(f.value);
   }
 
-  saveProduct(producto, f:NgForm) {
+  listarAlamacen() {
+    this.almacenSelect = true;
+    this.almacenService.get(this.venta.almacenid).subscribe(data => {
+      this.detalle = data[0].name;
+      console.log(data[0].name);
+    });
+    this.prodAlmacenService.get(this.venta.almacenid).subscribe(data => {
+      this.items = data;
+      console.log(data);
+    });
+  }
+
+  saveProduct(producto, f: NgForm) {
+    this.aux = this.productosVenta.filter(product => product.referencia == producto.referencia);
+    this.oldCant = 0;
+    if (this.aux.length > 0) {
+      this.oldCant = this.aux[0].cantidad;
+    }
     console.log(f.value.first);
-    producto.cantidad = f.value.first;
+    producto.cantidad = f.value.first + this.oldCant;
     console.log(this.productosVenta);
+    this.deleteProduct(producto.referencia);
     this.productosVenta.push(producto);
     this.productoVenta = {
       productoid: producto.referencia,
       precioUnitario: producto.precioVenta,
       cantidad: producto.cantidad,
-      precioNeto: (producto.precioVenta)
+      precioNeto: (producto.precioVenta * producto.cantidad)
     };
     console.log(this.productoVenta);
     this.facturaCompleta.push(this.productoVenta);
     this.venta.neto = this.venta.neto + this.productoVenta.precioNeto;
     this.venta.itemVenta = this.facturaCompleta;
+  }
+
+  deleteProduct(ref: any) {
+    //this.aux = this.facturaCompleta.filter(producto => producto.productoid == ref);
+    const productoEliminar = this.facturaCompleta.filter( producto => producto.productoid == ref );
+    //this.compra.neto = this.compra.neto - (productoEliminar.length > 0 ? productoCompraEliminar[0].precioNeto : 0);
+    this.venta.neto = this.venta.neto - (productoEliminar.length > 0 ? productoEliminar[0].precioNeto : 0);
+    this.facturaCompleta = this.facturaCompleta.filter( producto => producto.productoid != ref );
+    this.productosVenta = this.productosVenta.filter(producto => producto.referencia != ref);
+    //console.log(this.aux[0].precioNeto);
+    //console.log(this.productosVenta);
+    //console.log(this.facturaCompleta);
   }
 
   saveSale() {
@@ -86,22 +115,9 @@ export class CreateSaleComponent implements OnInit {
 
 
 /*
-  deleteProduct(ref: any) {
-    this.productosAgrgadosCompleto = this.productosAgrgadosCompleto.filter( producto => producto.referencia != item );    
-    this.venta.neto = this.venta.neto - this.productosVenta.filter( producto => producto.productoid == ref )[0].precioNeto;
-    this.productosCompra = this.productosCompra.filter( producto => producto.productoid != item );
-  }
-   
-  gotoList() {
-    this.router.navigate(['/create-sale']);
-  }
-
-  save(form: NgForm) {
-    this.productoService.save(form).subscribe(result => {
-      this.gotoList();
-    }, error => console.error(error));
-  }
   
+   
+
   verDetalles(item: String) {
     this.detalle = item;
     this.detalle.nombreUser = 'Nombre user';

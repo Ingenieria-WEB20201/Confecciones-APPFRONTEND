@@ -6,3 +6,25 @@
 .btn-outline-primary:hover{
     background-color: #50B2C4;
 }
+
+.navbar {
+    margin-top: 2em;
+    margin-bottom: 3em;
+}
+
+.form-inline .bi {
+    margin-right: 1em;
+}
+
+.compra-boton {
+    text-decoration: none;
+    padding: 0.5em;
+    border-radius: 6px;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.compra-boton:hover {
+    background-color: #e1e1e1;
+}

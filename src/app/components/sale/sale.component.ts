@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { SaleService } from '../../services/sale.service';
+import { AlmacenService } from 'src/app/services/almacen.service';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 
 @Component({
   selector: 'app-sale',
@@ -11,52 +13,20 @@ export class SaleComponent implements OnInit {
 
   content: string;
   elementos: any = [];
+  listaAlmacenes: any = [];
 
-  constructor(private userService: UserService, private saleService: SaleService) {
-      /* this.elementos = [
-        {
-          id: 1,
-          neto: 50,
-          fecha: "2020/04/27",
-          userid: 1,
-          almacenid:3,
-          itemCompra: [{
-            productoid: 1234,
-            precioUnitario: 50,
-            cantidad: 20,
-            precioNeto: 526
-          },
-          {
-            productoid: 1544,
-            precioUnitario: 560,
-            cantidad: 220,
-            precioNeto: 526
-          }
-          ]
-        },
-        {
-          id: 2,
-          neto: 540,
-          fecha: "2020/04/27",
-          userid: 15,
-          itemCompra: [{
-            productoid: 125434,
-            precioUnitario: 50,
-            cantidad: 20,
-            precioNeto: 526
-          },
-          {
-            productoid: 1656544,
-            precioUnitario: 560,
-            cantidad: 220,
-            precioNeto: 526
-          }
-          ]
-        }
-      ]; */
-   }
+  constructor(private userService: UserService, private saleService: SaleService, private tokenStorageService: TokenStorageService, private almacenService: AlmacenService) { }
 
   ngOnInit(): void {
+    this.content = this.tokenStorageService.getUser().id;
+
+    this.almacenService.getByUser(this.content).subscribe(data => {
+      this.listaAlmacenes = data;
+    });
+
+    for (let almacen of this.listaAlmacenes) {
+      console.log('i'); // 1, "string", false
+    }
     this.saleService.getByAlmacenId('1').subscribe(data => {
       this.elementos = data;
     })

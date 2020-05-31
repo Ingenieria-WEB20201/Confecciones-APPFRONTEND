@@ -40,7 +40,7 @@ import { ListEmpleadosComponent } from './components/list-empleados/list-emplead
     BoardCompraComponent,
     CreateCompraComponent,
     UpdateCompraComponent,
-    ListEmpleadosComponent
+    ListEmpleadosComponent,
     SaleComponent,
     CreateSaleComponent
   ],

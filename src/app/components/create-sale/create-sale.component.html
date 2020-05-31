@@ -12,41 +12,40 @@
             <legend>Datos de la venta</legend>
 
             <div class="form-row">
-
-              <div class="form-group col-md-6">
-                <label for="total">Total</label>
-                <input disabled required type="text" name="precio" class="form-control" id="precio" [value]="venta.neto">
-              </div>
-            </div>
-
-            <div class="form-row">
-
               <div class="form-group col-md-6">
                 <label for="usuario">ID Usuario</label>
                 <input autofocus type="text" class="form-control" disabled="disabled" required [(ngModel)]="venta.userid" name="userid" #userid>
               </div>
               <div class="form-group col-md-6">
                 <label for="almacen">ID Almacen</label>
-                <!-- <input required type="text" name="precio" class="form-control" id="precio" placeholder="2"> -->
-                <select class="form-control" required [(ngModel)]="venta.almacenid" name="almacenid" #almacenid>
+                <select class="form-control" required [(ngModel)]="venta.almacenid" name="almacenid" #almacenid [disabled]="almacenSelect">
                   <option [ngValue]="null" selected></option>
                   <option *ngFor="let almacen of listaAlmacenes" [ngValue]="almacen.id" >{{almacen.name}}</option>
-              </select>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="total">Total</label>
+                <input disabled required type="text" name="precio" class="form-control" id="precio" [value]="venta.neto |currency">
               </div>
             </div>
 
             <div class="col-md-12">
               <hr>
               <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                data-target="#listaProductos" [disabled]="(venta.almacenid==null)">Agregar producto</button>
+                data-target="#listaProductos" [disabled]="(venta.almacenid==null)" (click)="listarAlamacen()">Agregar producto</button>
 
               <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">Producto</th>
+                    <th scope="col">Código</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Precio</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Precio unitario</th>
                     <th scope="col">Cantidad</th>
+                    <th scope="col">Precio neto</th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -54,17 +53,19 @@
                   <tr *ngFor="let producto of productosVenta">
                     <th scope="row">{{producto.referencia}}</th>
                     <td>{{producto.nombre}}</td>
+                    <td>{{producto.estado}}</td>
                     <td>{{producto.precioVenta |currency}}</td>
                     <td>
                       {{producto.cantidad}}
                       <!--  
                       
-                        (click)="deleteProduct(producto.referencia)"
+                        
                       -->
                     </td>
+                    <td>{{producto.precioVenta * producto.cantidad |currency}}</td>
                     <td>
                       <div class="elementos-acciones">
-                        <svg  class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <svg  (click)="deleteProduct(producto.referencia)" class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path
                               d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z" />
                           <path fill-rule="evenodd"
@@ -78,7 +79,7 @@
               </table>
             </div>
 
-            <button type="submit" class="btn btn-primary" [disabled]="(productosVenta.length == 0 && venta.almacenid==null)" (click)="saveSale()">Guardar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="(productosVenta.length == 0 || venta.almacenid==null)" (click)="saveSale()">Guardar</button>
 
 
             <!-- Modal -->
@@ -93,8 +94,9 @@
                     </button>
                   </div>
                   <div class="modal-body">
+                    <h6>{{detalle}}</h6>
                     <!-- <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="buscarProducto"> -->
-                    <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+                    <form ng-app="myApp" name="myForm" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
                     <table class="table">
                       <thead>
                         <tr>
@@ -110,9 +112,11 @@
                           <td>{{item[0].precioVenta |currency}}</td>
                           <td>
                             <!-- {{item[0].cantidadDisponible}} -->
-                            <input type="number" name="first" ngModel required #first="ngModel" >
+                            <input type="number" name="first" ngModel required #first="ngModel" ng-model="myInput">
                           </td>
                           <td>
+                            <!-- <p>The input's valid state is:</p>
+                            <h1>{{myForm.first.$valid}}</h1> -->
                             <button type="submit" class="btn btn-sm btn-outline-primary" data-dismiss="modal" (click)="saveProduct(item[0], f)">Agregar producto</button>
                           </td>
                         </tr>
@@ -121,7 +125,7 @@
                     </table>
                   </form>
                   </div>
-                  <div class="modal-footer">
+                  <div class="modal-footer">                    
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                   </div>
                 </div>
