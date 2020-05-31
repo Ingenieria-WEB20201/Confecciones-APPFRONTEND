@@ -20,7 +20,7 @@ export class BoardCompraComponent implements OnInit {
   error = false;
 
   constructor(private router: Router, private productoService: ProductoService, private compraService: CompraService,
-              private tokenStorageService: TokenStorageService) { }
+    private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
     if (!this.tokenStorageService.getToken()) {
@@ -73,10 +73,15 @@ export class BoardCompraComponent implements OnInit {
   busquedaPorCodigo() {
     this.compraService.get(this.busqueda.busqueda).subscribe(data => {
       this.error = false;
-      this.elementos = [data];
+      this.elementos = data;
+
+      // this.error = false;
+      // this.elementos = [data];
+      console.log(data);
     }, err => {
-      this.elementos = [];
-      // this.error = true;
+      console.log(err);
+      // this.elementos = [];
+      this.error = true;
     });
   }
 

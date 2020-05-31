@@ -34,8 +34,8 @@ export class UpdateCompraComponent implements OnInit {
     this.error = false;
     this.route.params.subscribe(params => {
       this.compraService.get(params['id']).subscribe(data => {
-        this.compra = data;
-        this.almacenService.get(this.compra.almacenId).subscribe(almacen => {;
+        this.compra = data[0];
+        this.almacenService.get(this.compra.almacenId).subscribe(almacen => {
           this.nombreAlmacen = almacen[0].name;
         }, err => {
           this.error = true;

@@ -47,7 +47,6 @@ export class CompraService {
   }
 
   deleteItem(item): Observable<any> {
-    console.log(item);
     return this.http.request('delete', COMPRA_API + '/api/compra/item/', {
       body: {
         compraid: item.compraid,
@@ -57,7 +56,6 @@ export class CompraService {
   }
 
   update(compra): Observable<any> {
-    console.log(compra);
     return this.http.put(COMPRA_API + '/api/compra/', {
       id: compra.id,
       neto: compra.neto,
