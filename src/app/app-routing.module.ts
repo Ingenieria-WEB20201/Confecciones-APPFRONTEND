@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: 'create-sale', component: CreateSaleComponent },
   { path: 'compra', component: BoardCompraComponent },
   { path: 'compra/registrar', component: CreateCompraComponent },
-  { path: 'compra/modificar', component: UpdateCompraComponent },
+  { path: 'compra/modificar/:id', component: UpdateCompraComponent },
   { path: 'listEmpleados', component: ListEmpleadosComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];

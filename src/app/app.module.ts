@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +25,9 @@ import { CreateCompraComponent } from './components/compra/create-compra/create-
 import { UpdateCompraComponent } from './components/compra/update-compra/update-compra.component';
 import { ListEmpleadosComponent } from './components/list-empleados/list-empleados.component';
 
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ReferenciaPipe } from './pipes/referencia.pipe';
+import { ErrorComponent } from './components/shared/error/error.component';
 
 
 @NgModule({
@@ -43,13 +47,17 @@ import { ListEmpleadosComponent } from './components/list-empleados/list-emplead
     ListEmpleadosComponent,
     SaleComponent,
     CreateSaleComponent
+    ReferenciaPipe,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    BsDatepickerModule.forRoot(),
     HttpClientModule,
-    SweetAlert2Module.forRoot(),
+    SweetAlert2Module.forRoot()
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

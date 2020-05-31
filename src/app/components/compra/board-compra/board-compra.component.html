@@ -1,27 +1,59 @@
 <h1>Compra</h1>
 
 <nav class="navbar navbar-light bg-light">
-    <a class="compra-boton" [routerLink]="['/compra/registrar']">
-        <svg class="bi bi-plus-circle" style="color: #0062a9;margin-right: 0.5em;" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
-            <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z" clip-rule="evenodd"/>
-            <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
-          </svg> Registrar nueva compra
-    </a>
-    <form class="form-inline">
-        <svg class="bi bi-search" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd"
-                d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z"
-                clip-rule="evenodd" />
-            <path fill-rule="evenodd"
-                d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
-                clip-rule="evenodd" />
-        </svg>
-        <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar usuario</button>
+    <form class="buscar">
+
+        <div class="form-row ">
+            <a class="registrar-compra-boton boton-nav" [routerLink]="['/compra/registrar']">
+                <svg class="bi bi-plus-circle" style="color: #0062a9;margin-right: 0.5em;" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z"
+                        clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z"
+                        clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
+                        clip-rule="evenodd" />
+                </svg> Registrar nueva compra
+            </a>
+            <a class="boton-nav" (click)="buscarTodos()">
+                <svg class="bi bi-arrow-repeat" style="color: #0062a9;margin-right: 0.5em;" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M2.854 7.146a.5.5 0 0 0-.708 0l-2 2a.5.5 0 1 0 .708.708L2.5 8.207l1.646 1.647a.5.5 0 0 0 .708-.708l-2-2zm13-1a.5.5 0 0 0-.708 0L13.5 7.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0 0-.708z" />
+                    <path fill-rule="evenodd"
+                        d="M8 3a4.995 4.995 0 0 0-4.192 2.273.5.5 0 0 1-.837-.546A6 6 0 0 1 14 8a.5.5 0 0 1-1.001 0 5 5 0 0 0-5-5zM2.5 7.5A.5.5 0 0 1 3 8a5 5 0 0 0 9.192 2.727.5.5 0 1 1 .837.546A6 6 0 0 1 2 8a.5.5 0 0 1 .501-.5z" />
+
+                </svg> Restablecer
+            </a>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="almacenid">Tipo de búsqueda</label>
+                </div>
+                <select id="almacenid" class="custom-select" required [(ngModel)]="busqueda.tipo" (change)="cambioDeBusqueda()" name="tipoBusqueda" #tipoBusqueda>
+                    <option value="codigo" selected>Código</option>
+                    <option value="producto">Producto</option>
+                    <option value="usuario">Usuario</option>
+                    <option value="fechas">Rango de fechas</option>
+                </select>
+                <input class="form-control" type="search" required name="codProducto" placeholder="{{busqueda.tipo | titlecase}}" [(ngModel)]="busqueda.busqueda" *ngIf="busqueda.tipo != 'fechas'" #codProducto>
+                <input type="text" class="form-control" name="fechas" placeholder="{{busqueda.tipo | titlecase}}" bsDaterangepicker [(ngModel)]="busqueda.fecha" *ngIf="busqueda.tipo == 'fechas'" [bsConfig]="{ adaptivePosition: true, containerClass: 'theme-dark-blue', isAnimated: true}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary buscar-compra" type="button" (click)="buscar()">
+                        <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z"
+                                clip-rule="evenodd" />
+                            <path fill-rule="evenodd"
+                                d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
+                                clip-rule="evenodd" />
+                        </svg>Buscar</button>
+                </div>
+            </div>
+        </div>
     </form>
+
 </nav>
 
+<app-error *ngIf="error"></app-error>
 
-
-<app-lista (modificar)="modificarCompra($event)" [items]="elementos"></app-lista>
+<app-lista (modificar)="modificarCompra($event)" (eliminar)="eliminarCompra($event)" [items]="elementos"></app-lista>

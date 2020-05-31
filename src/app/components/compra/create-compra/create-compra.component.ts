@@ -5,6 +5,7 @@ import { CompraService } from 'src/app/services/compra.service';
 import { AlmacenService } from 'src/app/services/almacen.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { NgForm } from '@angular/forms';
+// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-compra',
@@ -30,14 +31,23 @@ export class CreateCompraComponent implements OnInit {
   cantidad = 0;
   infoProducCompleta = true;
   infoCompraCompleta = true;
+  guardando = false;
+  error = false;
 
-  constructor(private router: Router, private tokenStorageService: TokenStorageService, private productoService: ProductoService, 
-    private compraService: CompraService, private almacenService: AlmacenService) { }
+  constructor(private router: Router, private tokenStorageService: TokenStorageService, private productoService: ProductoService,
+              private compraService: CompraService, private almacenService: AlmacenService) { }
 
   ngOnInit(): void {
+    if (!this.tokenStorageService.getToken()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.compra.userid = this.tokenStorageService.getUser().id;
     this.almacenService.getAll().subscribe(data => {
       this.listaAlmacenes = data;
+      this.error = false;
+    }, err => {
+      this.error = true;
     });
   }
 
@@ -52,39 +62,33 @@ export class CreateCompraComponent implements OnInit {
     referencia = this.productoService.codificarReferencia(referencia, estado);
 
     this.productoService.get(referencia).subscribe(producto => {
+      this.error = false;
       if (producto.length > 0) {
         this.productoBuscado = producto[0];
       } else {
         this.productoService.get(referenciaAux).subscribe(productoAux => {
+          this.error = false;
           if (productoAux.length > 0) {
             this.productoBuscado.nombre = productoAux[0].nombre;
             this.productoBuscado.marca = productoAux[0].marca;
             this.productoBuscado.modelo = productoAux[0].modelo;
           }
           this.esProductoNuevo = true;
+        }, err => {
+          this.error = true;
         });
       }
       this.productoBuscado.referencia = this.productoService.decodificarReferencia(referencia).referencia;
       this.productoBuscado.estado = estado;
       this.activarCamposCompra = true;
+    }, err => {
+      this.error = true;
     });
-  }
-
-  verificarCampos() {
-    if (this.productoBuscado.nombre != '' && this.productoBuscado.marca != '' && this.productoBuscado.modelo != '') {
-      this.infoProducCompleta = true;
-    } else {
-      this.infoProducCompleta = false;
-    }
-    console.log(this.productoBuscado.precioUnitario);
   }
 
   agregarProducto() {
     this.productoBuscado.cantidadDisponible = this.cantidad;
-    // const productoBuscadoAux = this.productoBuscado;
-    // productoBuscadoAux.referencia = this.productoService.codificarReferencia(productoBuscadoAux.referencia, this.productoBuscado.estado);
     this.eliminarProducto(this.productoBuscado);
-
     if (this.esProductoNuevo) {
       this.productoNuevo = {
         referencia: this.productoService.codificarReferencia(this.productoBuscado.referencia, this.productoBuscado.estado),
@@ -107,8 +111,6 @@ export class CreateCompraComponent implements OnInit {
     this.productosCompra.push(this.productoCompra);
     this.compra.itemCompra = this.productosCompra;
     this.compra.neto = this.compra.neto + this.productoCompra.precioNeto;
-
-    this.limbiarCampos();
   }
 
   eliminarProducto(item: any) {
@@ -124,22 +126,34 @@ export class CreateCompraComponent implements OnInit {
 
   guardarCompra() {
     this.compra.fecha = this.obtenerFecha();
-
+    this.guardando = true;
     if (this.productosNuevos.length > 0) {
       this.productosNuevos.forEach(producto => {
         this.productoService.create(producto).subscribe(data => {
+          this.error = false;
           this.productosNuevosGuardados++;
           if (this.productosNuevosGuardados === this.productosNuevos.length) {
             this.compraService.create(this.compra).subscribe(data => {
+              this.error = false;
               this.productosNuevosGuardados = 0;
               this.router.navigate(['/compra']);
+            }, err => {
+              this.guardando = false;
+              this.error = true;
             });
           }
+        }, err => {
+          this.guardando = false;
+          this.error = true;
         });
       });
     } else {
       this.compraService.create(this.compra).subscribe(data => {
+        this.error = false;
         this.router.navigate(['/compra']);
+      }, err => {
+        this.guardando = false;
+        this.error = true;
       });
     }
   }
