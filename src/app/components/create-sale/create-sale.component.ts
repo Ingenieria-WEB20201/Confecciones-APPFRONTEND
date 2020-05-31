@@ -26,7 +26,7 @@ export class CreateSaleComponent implements OnInit {
 
   items: any[] = [];
   detalle: any;
-  elementos = [];
+  productoEncontrado: any = [];
   almacenSelect: boolean = false;
 
   aux: any;
@@ -54,6 +54,13 @@ export class CreateSaleComponent implements OnInit {
     });
     this.prodAlmacenService.get(this.venta.almacenid).subscribe(data => {
       this.items = data;
+      console.log(data);
+    });
+  }
+
+  buscarProducto() {
+    this.productoService.get(this.venta.productoid).subscribe(data => {
+      this.productoEncontrado = data;
       console.log(data);
     });
   }

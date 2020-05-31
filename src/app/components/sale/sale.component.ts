@@ -14,6 +14,7 @@ export class SaleComponent implements OnInit {
   content: string;
   elementos: any = [];
   listaAlmacenes: any = [];
+  //buscar: any;
 
   constructor(private userService: UserService, private saleService: SaleService, private tokenStorageService: TokenStorageService, private almacenService: AlmacenService) { }
 
@@ -34,5 +35,27 @@ export class SaleComponent implements OnInit {
 
   eventoDeTabla(cod: String){
     console.log(cod);
+  }
+
+  findById(ventaid) {
+    console.log(ventaid.value.buscar);
+    this.elementos = [];
+    this.saleService.getById(ventaid.value.buscar).subscribe(data => {
+      this.elementos.push(data);
+      console.log(data);
+    });
+    /* this.compraService.get(this.busqueda.busqueda).subscribe(data => {
+      this.error = false;
+      this.elementos = data;
+
+      // this.error = false;
+      // this.elementos = [data];
+      console.log(data);
+    }, err => {
+      console.log(err);
+      // this.elementos = [];
+      this.error = true;
+    }); */
+
   }
 }

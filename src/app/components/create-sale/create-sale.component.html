@@ -96,6 +96,11 @@
                   <div class="modal-body">
                     <h6>{{detalle}}</h6>
                     <!-- <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="buscarProducto"> -->
+                    <select class="form-control" required [(ngModel)]="venta.productoid" name="productoid" #productoid>
+                      <option [ngValue]="null" selected></option>
+                      <option *ngFor="let item of items" [ngValue]="item[0].referencia" >{{item[0].referencia}}</option>
+                    </select>
+                    <button type="button" class="btn btn-outline-primary" [disabled]="(venta.productoid==null)" (click)="buscarProducto()">Buscar</button>
                     <form ng-app="myApp" name="myForm" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
                     <table class="table">
                       <thead>
@@ -107,9 +112,9 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of items">
-                          <td>{{item[0].referencia}}</td>
-                          <td>{{item[0].precioVenta |currency}}</td>
+                        <tr *ngFor="let item of productoEncontrado">
+                          <td>{{item.referencia}}</td>
+                          <td>{{item.precioVenta |currency}}</td>
                           <td>
                             <!-- {{item[0].cantidadDisponible}} -->
                             <input type="number" name="first" ngModel required #first="ngModel" ng-model="myInput">
@@ -117,7 +122,7 @@
                           <td>
                             <!-- <p>The input's valid state is:</p>
                             <h1>{{myForm.first.$valid}}</h1> -->
-                            <button type="submit" class="btn btn-sm btn-outline-primary" data-dismiss="modal" (click)="saveProduct(item[0], f)">Agregar producto</button>
+                            <button type="submit" class="btn btn-sm btn-outline-primary" data-dismiss="modal" (click)="saveProduct(item, f)">Agregar producto</button>
                           </td>
                         </tr>
 

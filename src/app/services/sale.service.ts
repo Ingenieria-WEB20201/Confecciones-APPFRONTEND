@@ -29,4 +29,8 @@ export class SaleService {
   getByAlmacenId(id: String): Observable<any> {
     return this.http.get(SALE_API + '/api/venta/almacen/' + id);
   }
+
+  getById(id: String): Observable<any> {
+    return this.http.get(SALE_API + '/api/venta/' + id);
+  }
 }

@@ -1,14 +1,14 @@
 <h1>Ventas</h1>
 
 <nav class="navbar navbar-light bg-light">
-    <a class="compra-boton" [routerLink]="['/compra/registrar']">
+    <a class="compra-boton" [routerLink]="['/create-sale']">
         <svg class="bi bi-plus-circle" style="color: #0062a9;margin-right: 0.5em;" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
             <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z" clip-rule="evenodd"/>
             <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z" clip-rule="evenodd"/>
           </svg> Registrar nueva venta
     </a>
-    <form class="form-inline">
+    <form class="form-inline" #f="ngForm">
         <svg class="bi bi-search" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
                 d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z"
@@ -17,8 +17,8 @@
                 d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
                 clip-rule="evenodd" />
         </svg>
-        <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar venta</button>
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar" name="buscar" ngModel required #buscar="ngModel">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="findById(f)">Buscar venta</button>
     </form>
 </nav>
 <app-lista (modificar)="eventoDeTabla($event)" [items]="elementos"></app-lista>
