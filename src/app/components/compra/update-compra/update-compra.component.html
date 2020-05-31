@@ -1,1 +1,211 @@
-<p>update-compra works!</p>
+<div class="actualizar-compra">
+    <h1>Actualizar compra</h1>
+    <form>
+        <div class="contenedor">
+            <h2>Informcaión</h2>
+            <div class="form-row">
+                <div class="input-group col-md-6 mb-2">
+                    <div class="input-group-prepend ">
+                        <div class="input-group-text elementos-informacion">Código de compra</div>
+                    </div>
+                    <input class="form-control" type="text" disabled="disabled" required [(ngModel)]="compra.id" name="userid" #userid>
+                </div>
+                <div class="input-group col-md-6 mb-2">
+                    <div class="input-group-prepend ">
+                        <div class="input-group-text elementos-informacion">Nombre de almacén</div>
+                    </div>
+                    <input class="form-control" type="text" disabled="disabled" required [(ngModel)]="nombreAlmacen" name="almacen" #almacen>
+                </div>
+            </div>
+
+        </div>
+        <div class="contenedor">
+            <h2>Productos</h2>
+            <table class="table" id="tabla-productos">
+                <thead>
+                    <tr>
+                        <th scope="col">Cod</th>
+                        <th scope="col" class="quitar">Nombre</th>
+                        <th scope="col" class="quitar">Marca</th>
+                        <th scope="col" class="quitar">Modelo</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Precio unitario</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col" class="quitar">Precio neto</th>
+                        <th scope="col" class="colum-acciones"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="{{'prod'+i}}" *ngFor="let producto of compra.itemCompra; let i = index">
+                        <th scope="row">{{producto.productoid | referencia}}</th>
+                        <td scope="row" class="quitar">{{producto.nombre}}</td>
+                        <td scope="row" class="quitar">{{producto.marca}}</td>
+                        <td scope="row" class="quitar">{{producto.modelo}}</td>
+                        <td scope="row">{{producto.estado}}</td>
+                        <td scope="row">{{producto.precioUnitario | currency}}</td>
+                        <td scope="row">{{producto.cantidad}}</td>
+                        <td scope="row" class="quitar">{{producto.precioNeto | currency}}</td>
+                        <td scope="col" class="colum-acciones">
+                            <div class="elementos-acciones">
+                                <svg *ngIf="(!producto.eliminado)" data-target="Hola" data-toggle="modal" data-target="#modalProducoCompra" (click)="verProducto(producto, i)" class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"
+                                        clip-rule="evenodd" />
+                                    <path fill-rule="evenodd"
+                                        d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z"
+                                        clip-rule="evenodd" />
+                                </svg>
+
+                                <svg *ngIf="(!producto.eliminado)" (click)="eliminarProducto(producto, i)" class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z" />
+                                    <path fill-rule="evenodd"
+                                        d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                                        clip-rule="evenodd" />
+                                </svg>
+
+                                <svg *ngIf="(producto.modificado || producto.eliminado)" (click)="restablecer(i)" class="bi bi-arrow-repeat" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M2.854 7.146a.5.5 0 0 0-.708 0l-2 2a.5.5 0 1 0 .708.708L2.5 8.207l1.646 1.647a.5.5 0 0 0 .708-.708l-2-2zm13-1a.5.5 0 0 0-.708 0L13.5 7.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0 0-.708z" />
+                                    <path fill-rule="evenodd"
+                                        d="M8 3a4.995 4.995 0 0 0-4.192 2.273.5.5 0 0 1-.837-.546A6 6 0 0 1 14 8a.5.5 0 0 1-1.001 0 5 5 0 0 0-5-5zM2.5 7.5A.5.5 0 0 1 3 8a5 5 0 0 0 9.192 2.727.5.5 0 1 1 .837.546A6 6 0 0 1 2 8a.5.5 0 0 1 .501-.5z" />
+                                </svg>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th class="quitar"></th>
+                        <th class="quitar"></th>
+                        <th class="quitar"></th>
+                        <th></th>
+                        <th class="quitar"></th>
+                        <th>Total:</th>
+                        <td>{{compra.neto | currency}}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="botones">
+                <!-- Button trigger modal -->
+                <!-- <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#modalProducoCompra">
+                    Agregar producto
+                </button> -->
+                <a routerLink="/compra" class="cancelar-compra {{guardando ? 'desactivado' : ''}}">Cancelar</a>
+                <button type="button" class="btn btn-primary guardar-compra" data-toggle="modal" data-target="#confirmacion" [disabled]="guardando">
+                    <svg *ngIf="!guardando" class="bi bi-check-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
+                      </svg>
+                    <svg *ngIf="guardando" class="bi bi-arrow-repeat guardando" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M2.854 7.146a.5.5 0 0 0-.708 0l-2 2a.5.5 0 1 0 .708.708L2.5 8.207l1.646 1.647a.5.5 0 0 0 .708-.708l-2-2zm13-1a.5.5 0 0 0-.708 0L13.5 7.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0 0-.708z" />
+                        <path fill-rule="evenodd"
+                            d="M8 3a4.995 4.995 0 0 0-4.192 2.273.5.5 0 0 1-.837-.546A6 6 0 0 1 14 8a.5.5 0 0 1-1.001 0 5 5 0 0 0-5-5zM2.5 7.5A.5.5 0 0 1 3 8a5 5 0 0 0 9.192 2.727.5.5 0 1 1 .837.546A6 6 0 0 1 2 8a.5.5 0 0 1 .501-.5z" />
+                    </svg>
+                    Actualizar compra</button>
+            </div>
+        </div>
+    </form>
+
+    <app-error *ngIf="error"></app-error>
+
+
+    <!-- Modal Para Producto-->
+    <div class="modal fade" id="modalProducoCompra" tabindex="-1" role="dialog" aria-labelledby="modalProducoCompraLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalProducoCompraLabel">Actualizar producto</h4>
+                    <button type="button" (click)="cancelarActualizarProducto(productoAModificar.idxVec)" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form #productoForm="ngForm">
+                    <div class="modal-body">
+                        <div class="referencia ">
+
+                            <h4>Producto</h4>
+                            <form>
+                                <div class="form-row ">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="almacenid">Producto</label>
+                                        </div>
+                                        <input class="form-control" type="search" required [(ngModel)]="productoAModificar.estado" disabled="disabled" name="estadoProducto" #estadoProducto>
+                                        <input class="form-control" type="search" required value="{{productoAModificar.productoid | referencia}}" disabled="disabled" name="codProducto" placeholder="Código" #codProducto>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <hr>
+
+                        <div class="informacion-producto">
+                            <h4>Información</h4>
+
+                            <div class="form-row mb-2">
+                                <div class="col-md-6">
+                                    <label for="nombreProducto">Nombre: </label>
+                                    <input id="nombreProducto" class="form-control" type="text" disabled="disabled" required [(ngModel)]="productoAModificar.nombre" name="nombreProducto" #nombreProducto>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="marcaProducto">Marca: </label>
+                                    <input id="marcaProducto" class="form-control" type="text" disabled="disabled" required [(ngModel)]="productoAModificar.marca" name="marcaProducto" #marcaProducto>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <label for="modeloProducto">Modelo: </label>
+                                    <input id="modeloProducto" class="form-control" type="text" disabled="disabled" required [(ngModel)]="productoAModificar.modelo" name="modeloProducto" #modeloProducto>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <hr>
+                        <div class="informacion-compra">
+                            <h4>Información compra</h4>
+                            <div class="form-row mb-2">
+                                <div class="col-md-6">
+                                    <label for="precioUnitarioProducto">Precio unitario: </label>
+                                    <input id="precioUnitarioProducto" class="form-control" type="number" required [(ngModel)]="productoAModificar.precioUnitario" name="precioUnitarioProducto" #precioUnitarioProducto min="1" pattern="^[0-9]+">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="cantidadProducto">Cantidad: </label>
+                                    <input id="cantidadProducto" class="form-control" type="number" required [(ngModel)]="productoAModificar.cantidad" name="cantidadProducto" #cantidadProducto min="1" pattern="^[0-9]+">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancelarActualizarProducto(productoAModificar.idxVec)">Cancelar</button>
+                        <button type="button" class="btn btn-primary actualizar-producto" id="actualizar-producto" [disabled]="!productoForm.form.valid " data-dismiss="modal" (click)="actualizarProducto()">Agregar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Para Confirmar la modificación-->
+    <div class="modal fade" id="confirmacion" tabindex="-1" role="dialog" aria-labelledby="confirmacionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmacionLabel">Alerta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    ¿Guardar cambios?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary" id="confirmar-actualizacion" data-dismiss="modal" (click)="actualizarCompra()">Si</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

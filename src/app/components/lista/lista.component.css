@@ -21,31 +21,60 @@
     width: 10%;
 }
 
-svg {
-    display: none;
-    cursor: pointer;
-    transition: all 0.1s;
-}
-
-svg:hover {
-    transform: scale(1.1);
-}
-
 .elementos-acciones {
     height: 100%;
     width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    opacity: 0;
+    transition: all 0.2s;
 }
 
-#tabla-facturas tr:hover>td>div>svg {
-    display: block;
+svg {
+    opacity: 0.6;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+
+svg:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+#tabla-facturas tr:hover>td>.elementos-acciones {
+    opacity: 1;
+}
+
+.no-facturas {
+    width: 90%;
+    padding: 15px 5px;
+    font-size: 1.3rem;
 }
 
 
 /*=========Modal=========*/
 
-.modal-dialog {
+#modal-detalles {
     max-width: 1000px;
+}
+
+.boton-primario-modal {
+    background-color: #0062a9;
+    border-color: #0062a9;
+}
+
+.boton-primario-modal:hover {
+    background-color: #004475;
+    border-color: #004475;
+}
+
+.boton-secundario-modal {
+    border-color: #0062a9;
+    color: #0062a9;
+}
+
+.boton-secundario-modal:hover {
+    background-color: #0062a9;
+    color: white;
 }

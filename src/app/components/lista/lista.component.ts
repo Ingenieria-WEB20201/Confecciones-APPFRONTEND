@@ -10,16 +10,20 @@ export class ListaComponent implements OnInit {
 
   @Input() items: any[] = [];
   @Output() modificar = new EventEmitter<String>();
+  @Output() eliminar = new EventEmitter<String>();
   detalle: any;
+  idEliminar: any;
+  error = false;
 
   constructor(private productoService: ProductoService) {
     this.modificar = new EventEmitter();
+    this.eliminar = new EventEmitter();
   }
 
   ngOnInit(): void {
   }
-
-  verDetalles(item: String) {
+  
+  verDetalles(item: string) {
     this.detalle = item;
     // this.detalle.nombreUser = 'Nombre user';
     if (this.detalle.hasOwnProperty('itemVenta')) {
@@ -31,15 +35,25 @@ export class ListaComponent implements OnInit {
     this.detalle.items.forEach(element => {
       //Busqueda de nombre de cada producto
       this.productoService.get(element.productoid).subscribe(data => {
+        this.error = false;
         element.nombre = data[0].nombre;
         console.log(data);
+      }, err => {
+        this.error = true;
       });
-      // element.nombre = 'nompre producto';
     });
   }
 
-  modificarFactura( cod: String ){
+  modificarFactura(cod: String) {
     this.modificar.emit(cod);
+  }
+
+  registratIdEliminar(cod: string) {
+    this.idEliminar = cod;
+  }
+
+  eliminarFactura() {
+    this.eliminar.emit(this.idEliminar);
   }
 
 }

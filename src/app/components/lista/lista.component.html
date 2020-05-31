@@ -10,8 +10,8 @@
     <tbody>
         <tr *ngFor="let item of items">
             <th scope="row">{{item.id}}</th>
-            <td>{{item.fecha}}</td>
-            <td>{{item.neto}}</td>
+            <td>{{item.fecha | date:'shortDate'}}</td>
+            <td>{{item.neto | currency}}</td>
             <td>
                 <div class="elementos-acciones">
                     <svg class="bi bi-eye" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" data-toggle="modal" data-target="#detalles" (click)="verDetalles(item)">
@@ -32,7 +32,7 @@
                             clip-rule="evenodd" />
                     </svg>
 
-                    <svg class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <svg (click)="registratIdEliminar(item.id)" *ngIf="!item.hasOwnProperty('itemVenta')" class="bi bi-trash" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" data-toggle="modal" data-target="#confirmacion" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z" />
                         <path fill-rule="evenodd"
@@ -45,10 +45,13 @@
     </tbody>
 </table>
 
+<div class="container-lg bg-light text-center text-wrap no-facturas" *ngIf="items.length === 0">
+    No se encontraron facturas.
+</div>
 
 <!-- Modal -->
 <div *ngIf="detalle != null" class="modal fade" id="detalles" tabindex="-1" role="dialog" aria-labelledby="detallesLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" id="modal-detalles" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="detallesLabel">Código compra: {{detalle.id}}</h5>
@@ -58,7 +61,7 @@
             </div>
             <div class="modal-body">
                 <div class="fecha-modal">
-                    {{detalle.fecha}}
+                    {{detalle.fecha | date:'shortDate'}}
                 </div>
                 <div class="almacen" *ngIf="detalle.hasOwnProperty('almacenid')">
                     Almacen: {{detalle.nombreAlmacen}}
@@ -66,6 +69,7 @@
                 <div class="user">
                     Id de usuario: {{detalle.userid}}
                 </div>
+                <app-error *ngIf="error"></app-error>
                 <table class="table table-sm">
                     <thead>
                         <tr>
@@ -78,24 +82,45 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let producto of detalle.items">
-                            <th scope="row">{{producto.productoid}}</th>
+                            <th scope="row">{{producto.productoid | referencia}}</th>
                             <td>{{producto.nombre}}</td>
-                            <td>{{producto.precioUnitario}}</td>
+                            <td>{{producto.precioUnitario | currency}}</td>
                             <td>{{producto.cantidad}}</td>
-                            <td>{{producto.precioNeto}}</td>
+                            <td>{{producto.precioNeto | currency}}</td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
                             <th>Total:</th>
-                            <td>{{detalle.neto}}</td>
+                            <td>{{detalle.neto | currency}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="modal-footer">
-                <button (click)="modificarFactura(detalle.id)" type="button" class="btn btn-outline-primary" data-dismiss="modal">Modificar</button>
+                <button (click)="modificarFactura(detalle.id)" type="button" class="btn btn-outline-primary boton-secundario-modal" data-dismiss="modal">Modificar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Para Confirmar la modificación-->
+<div class="modal fade" id="confirmacion" tabindex="-1" role="dialog" aria-labelledby="confirmacionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmacionLabel">Alerta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                ¿Guardaar cambios?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary boton-primario-modal" data-dismiss="modal" (click)="eliminarFactura()">Si</button>
             </div>
         </div>
     </div>
