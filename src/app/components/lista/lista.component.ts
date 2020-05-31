@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ProductoService } from 'src/app/services/producto.service'
+import { ProductoService } from 'src/app/services/producto.service';
 
 @Component({
   selector: 'app-lista',
@@ -25,7 +25,6 @@ export class ListaComponent implements OnInit {
   
   verDetalles(item: string) {
     this.detalle = item;
-    // this.detalle.nombreUser = 'Nombre user';
     if (this.detalle.hasOwnProperty('itemVenta')) {
       this.detalle.items = this.detalle.itemVenta;
     } else {
@@ -33,11 +32,10 @@ export class ListaComponent implements OnInit {
     }
 
     this.detalle.items.forEach(element => {
-      //Busqueda de nombre de cada producto
+      // Busqueda de nombre de cada producto
       this.productoService.get(element.productoid).subscribe(data => {
         this.error = false;
         element.nombre = data[0].nombre;
-        console.log(data);
       }, err => {
         this.error = true;
       });

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductoService } from 'src/app/services/producto.service';
 import { CompraService } from 'src/app/services/compra.service';
 import { Router } from '@angular/router';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -18,9 +19,14 @@ export class BoardCompraComponent implements OnInit {
   };
   error = false;
 
-  constructor(private router: Router, private productoService: ProductoService, private compraService: CompraService) { }
+  constructor(private router: Router, private productoService: ProductoService, private compraService: CompraService,
+              private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
+    if (!this.tokenStorageService.getToken()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.buscarTodos();
   }
 
@@ -44,7 +50,6 @@ export class BoardCompraComponent implements OnInit {
   }
 
   modificarCompra(id: String) {
-    console.log(id);
     this.router.navigate(['compra/modificar', id]);
   }
 
@@ -68,11 +73,10 @@ export class BoardCompraComponent implements OnInit {
   busquedaPorCodigo() {
     this.compraService.get(this.busqueda.busqueda).subscribe(data => {
       this.error = false;
-      console.log(data);
       this.elementos = [data];
     }, err => {
       this.elementos = [];
-      this.error = true;
+      // this.error = true;
     });
   }
 
@@ -112,10 +116,8 @@ export class BoardCompraComponent implements OnInit {
       startDate: `${this.busqueda.fecha[0].getFullYear()}/${this.busqueda.fecha[0].getMonth() + 1}/${this.busqueda.fecha[0].getDate()}`,
       endDate: `${this.busqueda.fecha[1].getFullYear()}/${this.busqueda.fecha[1].getMonth() + 1}/${this.busqueda.fecha[1].getDate()}`
     };
-    console.log(fechas);
     this.compraService.findByFecha(fechas).subscribe(data => {
       this.error = false;
-      console.log(data);
       this.elementos = data;
     }, err => {
       this.error = true;
@@ -125,7 +127,6 @@ export class BoardCompraComponent implements OnInit {
   eliminarCompra(id: string) {
     this.compraService.delete(id).subscribe(data => {
       this.error = false;
-      console.log(data);
       this.elementos = this.elementos.filter(compra => compra.id != id);
     }, err => {
       this.error = true;

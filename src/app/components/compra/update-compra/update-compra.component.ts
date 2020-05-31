@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CompraService } from 'src/app/services/compra.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { AlmacenService } from 'src/app/services/almacen.service';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -22,15 +23,19 @@ export class UpdateCompraComponent implements OnInit {
   error = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private compraService: CompraService,
-    private productoService: ProductoService, private almacenService: AlmacenService) { }
+              private productoService: ProductoService, private almacenService: AlmacenService, 
+              private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
+    if (!this.tokenStorageService.getToken()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.error = false;
     this.route.params.subscribe(params => {
       this.compraService.get(params['id']).subscribe(data => {
         this.compra = data;
-        this.almacenService.get(this.compra.almacenId).subscribe(almacen => {
-          console.log(almacen);
+        this.almacenService.get(this.compra.almacenId).subscribe(almacen => {;
           this.nombreAlmacen = almacen[0].name;
         }, err => {
           this.error = true;

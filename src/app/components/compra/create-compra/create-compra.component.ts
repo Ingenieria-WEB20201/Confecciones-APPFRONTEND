@@ -35,7 +35,7 @@ export class CreateCompraComponent implements OnInit {
   error = false;
 
   constructor(private router: Router, private tokenStorageService: TokenStorageService, private productoService: ProductoService,
-    private compraService: CompraService, private almacenService: AlmacenService) { }
+              private compraService: CompraService, private almacenService: AlmacenService) { }
 
   ngOnInit(): void {
     if (!this.tokenStorageService.getToken()) {
@@ -86,24 +86,9 @@ export class CreateCompraComponent implements OnInit {
     });
   }
 
-  // save(form: NgForm) {
-  //   // this.agregarProducto();
-  //   // jQuery("#modalProducoCompra").modal("hide");
-  //   // // this.agregarProducto(form);
-  //   // console.log('hola');
-
-  //   jQuery("#menu-toggle").click(function (e) {
-  //     e.preventDefault();
-  //     jQuery("#wrapper").toggleClass("toggled");
-  //   });
-  // }
-
   agregarProducto() {
     this.productoBuscado.cantidadDisponible = this.cantidad;
-    // const productoBuscadoAux = this.productoBuscado;
-    // productoBuscadoAux.referencia = this.productoService.codificarReferencia(productoBuscadoAux.referencia, this.productoBuscado.estado);
     this.eliminarProducto(this.productoBuscado);
-
     if (this.esProductoNuevo) {
       this.productoNuevo = {
         referencia: this.productoService.codificarReferencia(this.productoBuscado.referencia, this.productoBuscado.estado),
@@ -126,8 +111,6 @@ export class CreateCompraComponent implements OnInit {
     this.productosCompra.push(this.productoCompra);
     this.compra.itemCompra = this.productosCompra;
     this.compra.neto = this.compra.neto + this.productoCompra.precioNeto;
-    // setTimeout( () => this.limbiarCampos(), 1);
-    // this.limbiarCampos();
   }
 
   eliminarProducto(item: any) {

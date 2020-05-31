@@ -78,22 +78,6 @@ svg {
     }
 }
 
-
-/* .contenedor .elemento-info input {
-    width: 250px;
-    height: 30px;
-    border-left: 0;
-    border-right: 0;
-    border-top: 0;
-    background-color: rgb(218, 221, 230);
-    border-radius: 5px;
-    padding: 0 0 0 10px;
-}
-
-.contenedor .elemento-info input:disabled {
-    background-color: rgb(182, 185, 192);
-} */
-
 .botones {
     display: flex;
     justify-content: flex-end;
