@@ -35,9 +35,11 @@ export class CreateSaleComponent implements OnInit {
 
   ngOnInit(): void {
     this.venta.userid = this.tokenStorageService.getUser().id;
+    console.log(this.venta.userid);
     //this.almacenService.getAll().subscribe(data => {
     this.almacenService.getByUser(this.venta.userid).subscribe(data => {
       this.listaAlmacenes = data;
+      console.log(this.listaAlmacenes);
     });
 
   }

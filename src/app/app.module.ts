@@ -46,7 +46,7 @@ import { ErrorComponent } from './components/shared/error/error.component';
     UpdateCompraComponent,
     ListEmpleadosComponent,
     SaleComponent,
-    CreateSaleComponent
+    CreateSaleComponent,
     ReferenciaPipe,
     ErrorComponent
   ],

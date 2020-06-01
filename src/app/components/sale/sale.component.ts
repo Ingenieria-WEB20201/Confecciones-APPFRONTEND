@@ -11,7 +11,7 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 })
 export class SaleComponent implements OnInit {
 
-  content: string;
+  content: any;
   elementos: any = [];
   listaAlmacenes: any = [];
   //buscar: any;
@@ -19,18 +19,28 @@ export class SaleComponent implements OnInit {
   constructor(private userService: UserService, private saleService: SaleService, private tokenStorageService: TokenStorageService, private almacenService: AlmacenService) { }
 
   ngOnInit(): void {
+    this.elementos = [];
     this.content = this.tokenStorageService.getUser().id;
 
     this.almacenService.getByUser(this.content).subscribe(data => {
+      console.log(data);
       this.listaAlmacenes = data;
+      console.log(this.listaAlmacenes);
+      this.listaAlmacenes.forEach( (value) => {
+        console.log(value.id);
+        this.saleService.getByAlmacenId(value.id).subscribe(data => {
+          data.forEach(element => {
+            this.elementos.push(element) ;
+          });
+          
+        })
+      });
     });
+    console.log(this.elementos);    
+  }
 
-    for (let almacen of this.listaAlmacenes) {
-      console.log('i'); // 1, "string", false
-    }
-    this.saleService.getByAlmacenId('1').subscribe(data => {
-      this.elementos = data;
-    })
+  findAlmacByUser() {
+    
   }
 
   eventoDeTabla(cod: String){
