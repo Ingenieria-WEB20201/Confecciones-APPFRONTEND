@@ -15,6 +15,7 @@ import { SaleService } from '../../services/sale.service';
 export class CreateSaleComponent implements OnInit {
 
   cantidad: number;
+  oldCantDisponible: number = 0;
   oldCant: number;
   listaAlmacenes: any = [];
   productosVenta: any = [];
@@ -23,7 +24,9 @@ export class CreateSaleComponent implements OnInit {
   venta: any = {
     neto: 0
   };  
-
+  prodActualizar: any = {
+    cantidadDisponible: 0
+  };
   items: any[] = [];
   detalle: any;
   productoEncontrado: any = [];
@@ -50,6 +53,8 @@ export class CreateSaleComponent implements OnInit {
 
   listarAlamacen() {
     this.almacenSelect = true;
+    this.venta.productoid = null;
+    this.productoEncontrado = [];
     this.almacenService.get(this.venta.almacenid).subscribe(data => {
       this.detalle = data[0].name;
       console.log(data[0].name);
@@ -73,9 +78,10 @@ export class CreateSaleComponent implements OnInit {
     if (this.aux.length > 0) {
       this.oldCant = this.aux[0].cantidad;
     }
-    console.log(f.value.first);
+    //console.log(f.value.first);
     producto.cantidad = f.value.first + this.oldCant;
-    console.log(this.productosVenta);
+    
+    //console.log(this.productosVenta);   producto.cantidadDisponible
     this.deleteProduct(producto.referencia);
     this.productosVenta.push(producto);
     this.productoVenta = {
@@ -84,10 +90,20 @@ export class CreateSaleComponent implements OnInit {
       cantidad: producto.cantidad,
       precioNeto: (producto.precioVenta * producto.cantidad)
     };
-    console.log(this.productoVenta);
+    //console.log(this.productoVenta);
     this.facturaCompleta.push(this.productoVenta);
     this.venta.neto = this.venta.neto + this.productoVenta.precioNeto;
     this.venta.itemVenta = this.facturaCompleta;
+    /* this.prodActualizar = {
+      referencia: producto.referencia,
+      cantidadDisponible: producto.cantidadDisponible - producto.cantidad
+    }
+
+    this.productoService.update(this.prodActualizar).subscribe(data => {
+      console.log(data);
+    }) */
+    //this.prodAlmacenService.update(this.prodActualizar);
+    //console.log(this.prodActualizar);
   }
 
   deleteProduct(ref: any) {
@@ -97,9 +113,16 @@ export class CreateSaleComponent implements OnInit {
     this.venta.neto = this.venta.neto - (productoEliminar.length > 0 ? productoEliminar[0].precioNeto : 0);
     this.facturaCompleta = this.facturaCompleta.filter( producto => producto.productoid != ref );
     this.productosVenta = this.productosVenta.filter(producto => producto.referencia != ref);
-    //console.log(this.aux[0].precioNeto);
-    //console.log(this.productosVenta);
-    //console.log(this.facturaCompleta);
+    /* this.oldCantDisponible = productoEliminar.length > 0 ? productoEliminar[0].cantidad : 0;
+    this.prodActualizar = {
+      referencia: ref,
+      cantidadDisponible: (cantDisponible + this.oldCantDisponible)
+    };
+    this.productoService.update(this.prodActualizar).subscribe(data => {
+      console.log(data);
+    }); */
+    //console.log(this.oldCantDisponible);
+    //console.log(this.prodActualizar);
   }
 
   saveSale() {
@@ -108,18 +131,24 @@ export class CreateSaleComponent implements OnInit {
     let mm = fecha.getMonth() + 1;
     let yyyy = fecha.getFullYear();
     this.venta.fecha = mm + '/' + dd + '/' + yyyy;
-    
-    if (this.productosVenta.length > 0) {
-      this.productosVenta.forEach(producto => {
-        this.saleService.create(this.venta).subscribe(data => {
-          console.log(data);
-          this.router.navigate(['/sale']);
-        });
-      });
-    } else {
-        console.log('data');
-        this.router.navigate(['/compra']);
-    }
+    this.saleService.create(this.venta).subscribe(data => {
+      console.log(data);
+      data.itemVenta.forEach(element => {
+        this.productoService.get(element.productoid).subscribe(data => {
+          this.oldCantDisponible = data.cantidadDisponible;
+          console.log(this.oldCantDisponible);
+          this.prodActualizar = {
+            referencia: element.productoid,
+            cantidadDisponible: (this.oldCantDisponible - element.cantidad)
+          };
+          this.productoService.update(this.prodActualizar).subscribe(data => {
+            console.log(data);
+          });
+        })
+        
+      })
+      this.router.navigate(['/sale']);
+    });
   }
 
 

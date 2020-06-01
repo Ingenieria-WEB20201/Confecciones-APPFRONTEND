@@ -24,6 +24,24 @@ export class ProductoAlmacenService {
   }
 
   update(producto): Observable<any> {
-    return this.http.put(PRODALMACEN_API + '/api/almacen', producto);
+    return this.http.put(PRODALMACEN_API + '/api/almacen', {
+      productoid : producto.id,
+	    almacenid : producto.almacenid,
+	    cantidad : producto.cantDisponible
+    });
   }
 }
+
+/**
+ * update(compra): Observable<any> {
+    return this.http.put(COMPRA_API + '/api/compra/', {
+      id: compra.id,
+      neto: compra.neto,
+      fecha: compra.fecha,
+      userid: compra.userid,
+      itemCompra: compra.itemCompra
+    });
+  }
+ * 
+ * 
+ */

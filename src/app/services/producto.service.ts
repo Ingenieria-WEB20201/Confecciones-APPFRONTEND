@@ -32,7 +32,10 @@ export class ProductoService {
   }
 
   update(producto): Observable<any> {
-    return this.http.put(PRODUCTO_API + '/api/productos', producto);
+    return this.http.put(PRODUCTO_API + '/api/producto', {
+      referencia: producto.referencia,
+	    cantidadDisponible: producto.cantidadDisponible
+    });
   }
 
   codificarReferencia(referencia: string, estado: string): string{

@@ -77,9 +77,7 @@ export class BoardCompraComponent implements OnInit {
 
       // this.error = false;
       // this.elementos = [data];
-      console.log(data);
     }, err => {
-      console.log(err);
       // this.elementos = [];
       this.error = true;
     });
