@@ -11,7 +11,7 @@ import { BoardCompraComponent } from './components/compra/board-compra/board-com
 import { BoardAdminComponent } from './components/board-admin/board-admin.component';
 import { BoardModeratorComponent } from './components/board-moderator/board-moderator.component';
 import { BoardUserComponent } from './components/board-user/board-user.component';
-import { ListEmpleadosComponent } from './components/list-empleados/list-empleados.component'
+import { ListEmpleadosComponent } from './components/Usuario/list-empleados/list-empleados.component'
 import { SaleComponent } from './components/sale/sale.component';
 import { CreateSaleComponent } from './components/create-sale/create-sale.component';
 
