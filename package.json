@@ -25,6 +25,7 @@
         "bootstrap": "^4.4.1",
         "express": "^4.17.1",
         "jquery": "^3.5.0",
+        "ngx-bootstrap": "^5.6.1",
         "popper.js": "^1.16.1",
         "rxjs": "~6.5.4",
         "sweetalert2": "^9.10.13",

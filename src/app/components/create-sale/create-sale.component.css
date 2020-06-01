@@ -1,0 +1,32 @@
+.btn-primary{
+    border-color: #50B2C4;
+}
+
+.btn-primary:hover{
+    background-color: #50B2C4;
+}
+
+.btn-default{
+    margin: 1rem;
+    border-color: gray;
+}
+
+.btn-default:hover{
+    background-color: #acabab;
+}
+.modal-lg {
+    max-width: 60%;
+}
+
+#cantidad {
+    width: 30%;
+}
+
+.btn-outline-primary{
+    float: right;
+    border-color: #50B2C4;
+}
+
+.btn-outline-primary:hover{
+    background-color: #50B2C4;
+}

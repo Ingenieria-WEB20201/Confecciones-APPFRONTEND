@@ -36,3 +36,10 @@ label {
     max-width: 1365px;
     width: 100%;
 }
+
+
+/* Calendario */
+
+.bs-datepicker .bs-media-container {
+    flex-direction: column !important;
+}

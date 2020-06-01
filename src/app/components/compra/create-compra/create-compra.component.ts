@@ -5,6 +5,7 @@ import { CompraService } from 'src/app/services/compra.service';
 import { AlmacenService } from 'src/app/services/almacen.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { NgForm } from '@angular/forms';
+// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-compra',
@@ -18,48 +19,79 @@ export class CreateCompraComponent implements OnInit {
   productosNuevos: any = [];
   productoNuevo: any = {};
   productosAgrgadosCompleto: any = [];
-  productoBuscado: any = {};
+  productoBuscado: any = {
+    estado: null
+  };
   compra: any = {
     neto: 0
   };
-  activarCampos = false;
-  activarOtrosCampos = false;
+  esProductoNuevo = false;
+  activarCamposCompra = false;
   productosNuevosGuardados = 0;
   cantidad = 0;
+  infoProducCompleta = true;
+  infoCompraCompleta = true;
+  guardando = false;
+  error = false;
 
-  constructor(private router: Router, private tokenStorageService: TokenStorageService, private productoService: ProductoService, 
-    private compraService: CompraService, private almacenService: AlmacenService) { }
+  constructor(private router: Router, private tokenStorageService: TokenStorageService, private productoService: ProductoService,
+              private compraService: CompraService, private almacenService: AlmacenService) { }
 
   ngOnInit(): void {
+    if (!this.tokenStorageService.getToken()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.compra.userid = this.tokenStorageService.getUser().id;
     this.almacenService.getAll().subscribe(data => {
       this.listaAlmacenes = data;
+      this.error = false;
+    }, err => {
+      this.error = true;
     });
   }
 
-  buscarProducto(referencia: string) {
-    this.cantidad = 0;
-    this.productoBuscado = {};
-    this.activarCampos = false;
-    this.activarOtrosCampos = false;
-    this.productoBuscado.referencia = referencia;
+  buscarProducto(referencia: string, estado: string) {
+    let referenciaAux: string;
+    this.limbiarCampos();
+    if (estado === 'nuevo') {
+      referenciaAux = this.productoService.codificarReferencia(referencia, 'usado');
+    } else {
+      referenciaAux = this.productoService.codificarReferencia(referencia, 'nuevo');
+    }
+    referencia = this.productoService.codificarReferencia(referencia, estado);
+
     this.productoService.get(referencia).subscribe(producto => {
-      if (producto[0]) {
+      this.error = false;
+      if (producto.length > 0) {
         this.productoBuscado = producto[0];
-        this.activarOtrosCampos = true;
       } else {
-        this.activarCampos = true;
-        this.activarOtrosCampos = true;
+        this.productoService.get(referenciaAux).subscribe(productoAux => {
+          this.error = false;
+          if (productoAux.length > 0) {
+            this.productoBuscado.nombre = productoAux[0].nombre;
+            this.productoBuscado.marca = productoAux[0].marca;
+            this.productoBuscado.modelo = productoAux[0].modelo;
+          }
+          this.esProductoNuevo = true;
+        }, err => {
+          this.error = true;
+        });
       }
+      this.productoBuscado.referencia = this.productoService.decodificarReferencia(referencia).referencia;
+      this.productoBuscado.estado = estado;
+      this.activarCamposCompra = true;
+    }, err => {
+      this.error = true;
     });
   }
 
   agregarProducto() {
     this.productoBuscado.cantidadDisponible = this.cantidad;
-
-    if (this.activarCampos) {
+    this.eliminarProducto(this.productoBuscado);
+    if (this.esProductoNuevo) {
       this.productoNuevo = {
-        referencia: this.productoBuscado.referencia,
+        referencia: this.productoService.codificarReferencia(this.productoBuscado.referencia, this.productoBuscado.estado),
         nombre: this.productoBuscado.nombre,
         marca: this.productoBuscado.marca,
         modelo: this.productoBuscado.modelo,
@@ -70,66 +102,77 @@ export class CreateCompraComponent implements OnInit {
       this.productosNuevos.push(this.productoNuevo);
     }
     this.productosAgrgadosCompleto.push(this.productoBuscado);
-
-
     this.productoCompra = {
-      productoid: this.productoBuscado.referencia,
+      productoid: this.productoService.codificarReferencia(this.productoBuscado.referencia, this.productoBuscado.estado),
       precioUnitario: this.productoBuscado.precioUnitario,
       cantidad: this.productoBuscado.cantidadDisponible,
       precioNeto: (this.productoBuscado.precioUnitario * this.productoBuscado.cantidadDisponible)
     };
     this.productosCompra.push(this.productoCompra);
-    this.productoBuscado = {};
-
     this.compra.itemCompra = this.productosCompra;
     this.compra.neto = this.compra.neto + this.productoCompra.precioNeto;
-    this.activarCampos = false;
-    this.activarOtrosCampos = false;
-    this.cantidad = 0;
   }
 
   eliminarProducto(item: any) {
-    this.productosAgrgadosCompleto = this.productosAgrgadosCompleto.filter( producto => producto.referencia != item );    
-    this.compra.neto = this.compra.neto - this.productosCompra.filter( producto => producto.productoid == item )[0].precioNeto;
-    this.productosCompra = this.productosCompra.filter( producto => producto.productoid != item );
-    this.productosNuevos = this.productosNuevos.filter( producto => producto.productoid != item );
-  // productosNuevos: any = [];
+    this.productosAgrgadosCompleto = this.productosAgrgadosCompleto
+      .filter(producto => ((producto.referencia != item.referencia) || (producto.estado != item.estado)));
+    const ref = this.productoService.codificarReferencia(item.referencia, item.estado);
+    const productoCompraEliminar = this.productosCompra.filter(producto => producto.productoid == ref);
+    this.compra.neto = this.compra.neto - (productoCompraEliminar.length > 0 ? productoCompraEliminar[0].precioNeto : 0);
+    this.productosCompra = this.productosCompra.filter(producto => producto.productoid != ref);
+    this.productosNuevos = this.productosNuevos.filter(producto => producto.referencia != ref);
+
   }
 
   guardarCompra() {
-    let fecha = new Date();
-    let dd = fecha.getDate();
-    let mm = fecha.getMonth() + 1;
-    let yyyy = fecha.getFullYear();
-    this.compra.fecha = mm + '/' + dd + '/' + yyyy;
-
+    this.compra.fecha = this.obtenerFecha();
+    this.guardando = true;
     if (this.productosNuevos.length > 0) {
       this.productosNuevos.forEach(producto => {
         this.productoService.create(producto).subscribe(data => {
+          this.error = false;
           this.productosNuevosGuardados++;
-          console.log(data);
           if (this.productosNuevosGuardados === this.productosNuevos.length) {
             this.compraService.create(this.compra).subscribe(data => {
-              console.log(data);
+              this.error = false;
               this.productosNuevosGuardados = 0;
               this.router.navigate(['/compra']);
+            }, err => {
+              this.guardando = false;
+              this.error = true;
             });
           }
+        }, err => {
+          this.guardando = false;
+          this.error = true;
         });
       });
     } else {
       this.compraService.create(this.compra).subscribe(data => {
-        console.log(data);
+        this.error = false;
         this.router.navigate(['/compra']);
+      }, err => {
+        this.guardando = false;
+        this.error = true;
       });
     }
   }
 
-  limbiarCampos(){
-    this.productoBuscado = {};
+  obtenerFecha() {
+    const fecha = new Date();
+    const dd = fecha.getDate();
+    const mm = fecha.getMonth() + 1;
+    const yyyy = fecha.getFullYear();
+    return mm + '/' + dd + '/' + yyyy;
+  }
+
+  limbiarCampos() {
+    this.productoBuscado = {
+      estado: null
+    };
     this.cantidad = 0;
-    this.activarCampos = false;
-    this.activarOtrosCampos = false;
+    this.esProductoNuevo = false;
+    this.activarCamposCompra = false;
   }
 
 

@@ -25,4 +25,8 @@ export class AlmacenService {
   get(id): Observable<any> {
     return this.http.get(ALMACEN_API + '/api/almac/' + id);
   }
+
+  getByUser(id): Observable<any> {
+    return this.http.get(ALMACEN_API + '/api/almacen/usuario/' + id);
+  }
 }

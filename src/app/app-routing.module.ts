@@ -11,11 +11,9 @@ import { BoardCompraComponent } from './components/compra/board-compra/board-com
 import { BoardAdminComponent } from './components/board-admin/board-admin.component';
 import { BoardModeratorComponent } from './components/board-moderator/board-moderator.component';
 import { BoardUserComponent } from './components/board-user/board-user.component';
-import { ListEmpleadosComponent } from './components/Usuario/list-empleados/list-empleados.component'
-
-
-
-
+import { ListEmpleadosComponent } from './components/list-empleados/list-empleados.component'
+import { SaleComponent } from './components/sale/sale.component';
+import { CreateSaleComponent } from './components/create-sale/create-sale.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -24,9 +22,11 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
+  { path: 'sale', component: SaleComponent },
+  { path: 'create-sale', component: CreateSaleComponent },
   { path: 'compra', component: BoardCompraComponent },
   { path: 'compra/registrar', component: CreateCompraComponent },
-  { path: 'compra/modificar', component: UpdateCompraComponent },
+  { path: 'compra/modificar/:id', component: UpdateCompraComponent },
   { path: 'listEmpleados', component: ListEmpleadosComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];

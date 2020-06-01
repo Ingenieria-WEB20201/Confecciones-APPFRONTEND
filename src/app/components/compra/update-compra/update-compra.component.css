@@ -1,0 +1,177 @@
+p {
+    margin: 0;
+    margin-right: 10px;
+}
+
+svg {
+    cursor: pointer;
+}
+
+.input-group {
+    flex-wrap: nowrap;
+}
+
+.contenedor {
+    width: 100%;
+    margin: auto;
+    margin-top: 2%;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: -1px 6px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+#tabla-productos tbody tr td .colum-acciones {
+    width: 7%;
+    padding-right: 0;
+}
+
+#tabla-productos tbody tr {
+    transition: all 0.2s;
+}
+
+#tabla-productos tbody tr td .elementos-acciones {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+#tabla-productos tbody tr:hover>td>.elementos-acciones {
+    opacity: 1;
+}
+
+#tabla-productos tbody td .elementos-acciones svg {
+    opacity: 0.6;
+    transition: all 0.1s;
+}
+
+#tabla-productos tbody .colum-acciones {
+    width: 7%;
+}
+
+#tabla-productos tbody td .elementos-acciones svg:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+#tabla-productos tbody .modificado {
+    background: #CAE3F7;
+}
+
+#tabla-productos tbody .eliminado {
+    background: #F7AEAA;
+}
+
+@media (max-width: 1160px) {
+    #tabla-productos td,
+    #tabla-productos th {
+        padding-left: 2px;
+        padding-right: 2px;
+        text-align: center;
+    }
+    .quitar {
+        display: none;
+    }
+}
+
+@media (max-width: 450px) {
+    #tabla-productos td,
+    #tabla-productos th {
+        font-size: 13px;
+    }
+    #tabla-productos tbody td .elementos-acciones {
+        flex-direction: column;
+    }
+    #tabla-productos tbody td .elementos-acciones svg {
+        margin-bottom: 7px;
+    }
+}
+
+.botones {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.botones .cancelar-compra {
+    margin: 0 10px;
+    color: #212529;
+}
+
+.botones .cancelar-compra.desactivado {
+    pointer-events: none;
+}
+
+.botones .guardar-compra {
+    background-color: #25383b;
+    border-color: #25383b;
+}
+
+.botones .guardar-compra:hover {
+    background-color: #105E6D;
+    border-color: #105E6D;
+}
+
+.botones .guardar-compra:disabled {
+    pointer-events: none;
+}
+
+.botones .guardar-compra .guardando {
+    margin: -0.8px;
+    animation: girar 2.5s infinite linear;
+}
+
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/*=========Modal=========*/
+
+#modalProducoCompra .modal-dialog {
+    max-width: 1000px;
+}
+
+.modal-body {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.modal-body .dato-producto {
+    display: flex;
+    align-items: center;
+}
+
+.actualizar-producto {
+    background-color: #0062a9;
+    border-color: #0062a9;
+}
+
+.actualizar-producto:hover {
+    background-color: #004475;
+    border-color: #004475;
+}
+
+.actualizar-producto:disabled {
+    pointer-events: none;
+}
+
+#confirmar-actualizacion {
+    background-color: #0062a9;
+    border-color: #0062a9;
+}
+
+#confirmar-actualizacion:hover {
+    background-color: #004475;
+    border-color: #004475;
+}
