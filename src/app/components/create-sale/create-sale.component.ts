@@ -31,6 +31,8 @@ export class CreateSaleComponent implements OnInit {
   detalle: any;
   productoEncontrado: any = [];
   almacenSelect: boolean = false;
+  guardando = false;
+  error = false;
 
   aux: any;
   constructor(private router: Router, private tokenStorageService: TokenStorageService, private almacenService: AlmacenService,
@@ -131,10 +133,13 @@ export class CreateSaleComponent implements OnInit {
     let mm = fecha.getMonth() + 1;
     let yyyy = fecha.getFullYear();
     this.venta.fecha = mm + '/' + dd + '/' + yyyy;
+    this.guardando = true;
     this.saleService.create(this.venta).subscribe(data => {
+      this.error = false;
       console.log(data);
       data.itemVenta.forEach(element => {
         this.productoService.get(element.productoid).subscribe(data => {
+          this.error = false;
           this.oldCantDisponible = data.cantidadDisponible;
           console.log(this.oldCantDisponible);
           this.prodActualizar = {
@@ -142,12 +147,22 @@ export class CreateSaleComponent implements OnInit {
             cantidadDisponible: (this.oldCantDisponible - element.cantidad)
           };
           this.productoService.update(this.prodActualizar).subscribe(data => {
+            this.error = false;
             console.log(data);
+          }, err => {
+            this.guardando = false;
+            this.error = true;
           });
+        }, err => {
+          this.guardando = false;
+          this.error = true;
         })
         
       })
       this.router.navigate(['/sale']);
+    }, err => {
+      this.guardando = false;
+      this.error = true;
     });
   }
 

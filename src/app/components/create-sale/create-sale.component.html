@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Nueva venta |<a [routerLink]="['/sale']" class="btn btn-default">Volver</a></h1>
+      <h1 class="page-header">Nueva venta</h1>
     </div>
   </div>
   <div class="row">
@@ -79,8 +79,21 @@
               </table>
             </div>
 
-            <button type="submit" class="btn btn-primary" [disabled]="(productosVenta.length == 0 || venta.almacenid==null)" (click)="saveSale()">Guardar</button>
-
+            <div class="botones">
+              <a routerLink="/sale" class="cancelar-compra {{guardando ? 'desactivado' : ''}}">Cancelar</a>
+              <button type="button" class="btn btn-primary guardar-compra" (click)="saveSale()" [disabled]="(productosVenta.length == 0 || venta.almacenid==null) || (guardando)">
+                  <svg *ngIf="!guardando" class="bi bi-check-circle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                      <path fill-rule="evenodd" d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
+                    </svg>
+                  <svg *ngIf="guardando" class="bi bi-arrow-repeat guardando" width="1.1em" height="1.1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd"
+                          d="M2.854 7.146a.5.5 0 0 0-.708 0l-2 2a.5.5 0 1 0 .708.708L2.5 8.207l1.646 1.647a.5.5 0 0 0 .708-.708l-2-2zm13-1a.5.5 0 0 0-.708 0L13.5 7.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0 0-.708z" />
+                      <path fill-rule="evenodd"
+                          d="M8 3a4.995 4.995 0 0 0-4.192 2.273.5.5 0 0 1-.837-.546A6 6 0 0 1 14 8a.5.5 0 0 1-1.001 0 5 5 0 0 0-5-5zM2.5 7.5A.5.5 0 0 1 3 8a5 5 0 0 0 9.192 2.727.5.5 0 1 1 .837.546A6 6 0 0 1 2 8a.5.5 0 0 1 .501-.5z" />
+                  </svg>
+                  Registrar venta</button>
+              </div>
 
             <!-- Modal -->
             <div class="modal fade" id="listaProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
