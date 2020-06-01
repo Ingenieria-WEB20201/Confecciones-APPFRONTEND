@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { RegisterComponent } from './components/register/register.component';
+import { RegisterComponent } from './components/Usuario/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -11,7 +11,7 @@ import { BoardCompraComponent } from './components/compra/board-compra/board-com
 import { BoardAdminComponent } from './components/board-admin/board-admin.component';
 import { BoardModeratorComponent } from './components/board-moderator/board-moderator.component';
 import { BoardUserComponent } from './components/board-user/board-user.component';
-import { ListEmpleadosComponent } from './components/list-empleados/list-empleados.component'
+import { ListEmpleadosComponent } from './components/Usuario/list-empleados/list-empleados.component'
 
 
 

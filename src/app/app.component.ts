@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import * as jQuery from 'jquery';
+import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -15,8 +17,10 @@ export class AppComponent implements OnInit {
   showAdminBoard = false;
   showModeratorBoard = false;
   username: string;
-
-  constructor(private tokenStorageService: TokenStorageService) { }
+  idUser: string;
+  avatar: string;
+  UsuarioId = [];
+  constructor(private tokenStorageService: TokenStorageService, private authService: AuthService) { }
 
   ngOnInit() {
 
@@ -30,6 +34,9 @@ export class AppComponent implements OnInit {
       this.showModeratorBoard = this.roles.includes('ROLE_TERCERO');
 
       this.username = user.username;
+      this.idUser = user.id;
+      this.avatar = user.avatar;
+
     }
 
     var contenerdor = document.getElementById("container-login");
@@ -58,6 +65,12 @@ export class AppComponent implements OnInit {
   }
 
 
+  editUser(id){
+    this.UsuarioId = [];
+    this.authService.getUserByid(id).subscribe(data => {
+    this.UsuarioId.push(data);
+    })
+  }
 
 
 }

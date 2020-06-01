@@ -8,7 +8,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { RegisterComponent } from './components/Usuario/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { BoardAdminComponent } from './components/board-admin/board-admin.component';
@@ -20,7 +20,11 @@ import { ListaComponent } from './components/lista/lista.component';
 import { BoardCompraComponent } from './components/compra/board-compra/board-compra.component';
 import { CreateCompraComponent } from './components/compra/create-compra/create-compra.component';
 import { UpdateCompraComponent } from './components/compra/update-compra/update-compra.component';
-import { ListEmpleadosComponent } from './components/list-empleados/list-empleados.component';
+import { ListEmpleadosComponent } from './components/Usuario/list-empleados/list-empleados.component';
+import { EstadoPipe } from './pipes/estado.pipe';
+import { UpdateUserComponent } from './components/Usuario/update-user/update-user.component';
+import { AvatarPipe } from './pipes/avatar.pipe';
+
 
 
 
@@ -38,7 +42,11 @@ import { ListEmpleadosComponent } from './components/list-empleados/list-emplead
     BoardCompraComponent,
     CreateCompraComponent,
     UpdateCompraComponent,
-    ListEmpleadosComponent
+    ListEmpleadosComponent,
+    EstadoPipe,
+    UpdateUserComponent,
+    AvatarPipe,
+
   ],
   imports: [
     BrowserModule,

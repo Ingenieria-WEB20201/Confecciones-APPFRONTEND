@@ -35,8 +35,17 @@ export class AuthService {
     }, httpOptions);
   }
 
-  getAllUsers(): Observable <any> {
-    return this.http.get(AUTH_API + "/api/auth/users")
-}
+  getAllUsers(): Observable<any> {
+    return this.http.get(AUTH_API + '/api/auth/users')
+  }
+
+  getUserByid(id): Observable<any> {
+    return this.http.get(AUTH_API + '/api/auth/users/' + id);
+  }
+
+  updateUser(user, id): Observable<any> {
+
+      return this.http.put(AUTH_API + '/api/auth/users/' + id, user[0]);
+  }
 
 }
