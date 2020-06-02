@@ -12,7 +12,6 @@ export class SaleService {
   constructor(private http: HttpClient) { }
 
   create(sale): Observable<any> {
-    console.log(sale);
     return this.http.post(SALE_API + '/api/venta/', {
       neto: sale.neto,
       fecha: sale.fecha,
@@ -26,11 +25,20 @@ export class SaleService {
     return this.http.get(COMPRA_API + '/api/compra/');
   } */
 
-  getByAlmacenId(id: String): Observable<any> {
+  getByAlmacenId(id: any): Observable<any> {
     return this.http.get(SALE_API + '/api/venta/almacen/' + id);
   }
 
   getById(id: String): Observable<any> {
     return this.http.get(SALE_API + '/api/venta/' + id);
+  }
+
+  update(sale): Observable<any> {
+    return this.http.put(SALE_API + '/api/venta/', {
+      ventaid: sale.id,
+      neto: sale.neto,
+      almacenid: sale.almacenid,
+      itemVenta: sale.itemVenta
+    })
   }
 }

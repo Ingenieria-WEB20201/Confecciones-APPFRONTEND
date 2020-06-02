@@ -35,4 +35,14 @@
       </svg>Buscar venta</button>
   </form>
 </nav>
-<app-lista (modificar)="eventoDeTabla($event)" [items]="elementos"></app-lista>
+<div class="form-inline" style="padding-bottom: 2rem;">
+    <label for="almacen" style="padding-right: .5rem;">Almacen: </label>
+    <select class="form-control mr-sm-2" required [(ngModel)]="almacenid" name="first" #first>
+      <option [ngValue]="null" selected></option>
+      <option *ngFor="let almacen of listaAlmacenes" [ngValue]="almacen.id">{{almacen.name}}</option>
+    </select>
+    <button type="button" class="btn btn-outline-secondary my-2 my-sm-0"
+                [disabled]="(almacenid==null)" (click)="listarVenta()">listar
+              </button>
+</div>
+<app-lista (modificar)="modificarVenta($event)" [items]="elementos"></app-lista>

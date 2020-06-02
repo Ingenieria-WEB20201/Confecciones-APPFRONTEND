@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { SaleService } from '../../services/sale.service';
 import { AlmacenService } from 'src/app/services/almacen.service';
@@ -14,58 +15,50 @@ export class SaleComponent implements OnInit {
   content: any;
   elementos: any = [];
   listaAlmacenes: any = [];
+  error = false;
+  almacenid: number;
   //buscar: any;
 
-  constructor(private userService: UserService, private saleService: SaleService, private tokenStorageService: TokenStorageService, private almacenService: AlmacenService) { }
+  constructor(private router: Router, private userService: UserService, private saleService: SaleService, private tokenStorageService: TokenStorageService, private almacenService: AlmacenService) { }
 
   ngOnInit(): void {
+    if (!this.tokenStorageService.getToken()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.elementos = [];
     this.content = this.tokenStorageService.getUser().id;
 
     this.almacenService.getByUser(this.content).subscribe(data => {
-      console.log(data);
+      this.error = false;
       this.listaAlmacenes = data;
-      console.log(this.listaAlmacenes);
-      this.listaAlmacenes.forEach( (value) => {
-        console.log(value.id);
-        this.saleService.getByAlmacenId(value.id).subscribe(data => {
-          data.forEach(element => {
-            this.elementos.push(element) ;
-          });
-          
-        })
+    }, err => {
+      this.error = true;
+    });  
+  }
+
+  listarVenta() {
+    this.saleService.getByAlmacenId(this.almacenid).subscribe(data => {
+      console.log(data);
+      this.error = false;
+      data.forEach(element => {
+        this.elementos.push(element) ;
       });
-    });
-    console.log(this.elementos);    
+      //console.log(data);
+      //console.log(this.elementos);
+    }, err => {
+      this.error = true;
+    })
   }
 
-  findAlmacByUser() {
-    
-  }
-
-  eventoDeTabla(cod: String){
-    console.log(cod);
+  modificarVenta(id: String) {
+    this.router.navigate(['update-sale', id]);
   }
 
   findById(ventaid) {
-    console.log(ventaid.value.buscar);
     this.elementos = [];
     this.saleService.getById(ventaid.value.buscar).subscribe(data => {
       this.elementos.push(data);
-      console.log(data);
     });
-    /* this.compraService.get(this.busqueda.busqueda).subscribe(data => {
-      this.error = false;
-      this.elementos = data;
-
-      // this.error = false;
-      // this.elementos = [data];
-      console.log(data);
-    }, err => {
-      console.log(err);
-      // this.elementos = [];
-      this.error = true;
-    }); */
-
   }
 }
