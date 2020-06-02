@@ -31,7 +31,8 @@ export class AuthService {
       email: user.email,
       password: user.password,
       enable: user.enable,
-      avatar: user.avatar
+      avatar: user.avatar,
+      roles: user.role
     }, httpOptions);
   }
 

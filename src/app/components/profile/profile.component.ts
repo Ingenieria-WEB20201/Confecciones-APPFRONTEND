@@ -14,6 +14,8 @@ export class ProfileComponent implements OnInit {
   isSignUpFailed = false;
   errorMessage = '';
   isAdmin = false;
+  isUser = false;
+  isTercero = false;
   private roles: string[];
   @Input() user: [];
 
@@ -28,7 +30,9 @@ export class ProfileComponent implements OnInit {
     const user = this.tokenStorageService.getUser();
     this.roles = user.roles;
     this.isAdmin = this.roles.includes('ROLE_ADMIN');
-    if (this.isAdmin) {
+    this.isUser = this.roles.includes('ROLE_USER');
+    this.isTercero = this.roles.includes('ROLE_TERCERO');
+    if (this.isAdmin || this.isUser || this.isTercero) {
      await this.authService.updateUser(this.user, id).subscribe(
         data => {
           this.isSuccessful = true;

@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   isLoggedIn = false;
   showAdminBoard = false;
   showModeratorBoard = false;
+  showUserBoard = false;
   username: string;
   idUser: string;
   avatar: string;
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit {
 
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       this.showModeratorBoard = this.roles.includes('ROLE_TERCERO');
+      this.showUserBoard = this.roles.includes('ROLE_USER');
 
       this.username = user.username;
       this.idUser = user.id;

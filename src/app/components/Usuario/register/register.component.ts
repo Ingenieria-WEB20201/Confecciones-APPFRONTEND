@@ -26,8 +26,9 @@ export class RegisterComponent implements OnInit {
     const user = this.tokenStorageService.getUser();
     this.roles = user.roles;
     this.isAdmin = this.roles.includes('ROLE_ADMIN');
-
+    this.form.role = [this.form.role];
     console.log(this.form);
+
     if (this.isAdmin) {
      await this.authService.register(this.form).subscribe(
         data => {
