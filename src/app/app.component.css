@@ -32,6 +32,8 @@
     text-decoration: none;
     border-left: solid 7px #2a303a;
     color: #fff;
+    display: flex;
+    align-items: stretch;
 }
 
 .sidebar-item:hover {
@@ -39,6 +41,10 @@
     color: #fff;
     border-left: solid 7px #50B2C4;
     text-decoration: none;
+}
+
+.sidebar-item svg {
+    margin-right: 3px;
 }
 
 .active {
