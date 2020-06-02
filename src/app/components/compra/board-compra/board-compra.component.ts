@@ -74,11 +74,7 @@ export class BoardCompraComponent implements OnInit {
     this.compraService.get(this.busqueda.busqueda).subscribe(data => {
       this.error = false;
       this.elementos = data;
-
-      // this.error = false;
-      // this.elementos = [data];
     }, err => {
-      // this.elementos = [];
       this.error = true;
     });
   }

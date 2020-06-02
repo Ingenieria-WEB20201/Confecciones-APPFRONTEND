@@ -1,6 +1,72 @@
-<div class="container">
-    <header class="jumbotron">
-        <p>{{ content }}</p>
+<h1>Home</h1>
 
-    </header>
+<nav class="navbar navbar-light bg-light">
+    <form class="buscar container-fluid form-row">
+        <div class="form-row container-fluid">
+            <div class="input-group  col-md-2">
+                <a class="boton-nav" (click)="buscarTodos()">
+                    <svg class="bi bi-arrow-repeat" style="color: #0062a9;margin-right: 0.5em;" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M2.854 7.146a.5.5 0 0 0-.708 0l-2 2a.5.5 0 1 0 .708.708L2.5 8.207l1.646 1.647a.5.5 0 0 0 .708-.708l-2-2zm13-1a.5.5 0 0 0-.708 0L13.5 7.793l-1.646-1.647a.5.5 0 0 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0 0-.708z" />
+                        <path fill-rule="evenodd"
+                            d="M8 3a4.995 4.995 0 0 0-4.192 2.273.5.5 0 0 1-.837-.546A6 6 0 0 1 14 8a.5.5 0 0 1-1.001 0 5 5 0 0 0-5-5zM2.5 7.5A.5.5 0 0 1 3 8a5 5 0 0 0 9.192 2.727.5.5 0 1 1 .837.546A6 6 0 0 1 2 8a.5.5 0 0 1 .501-.5z" />
+    
+                    </svg> Restablecer
+                </a>
+            </div>
+
+            <div class="input-group col-md-10">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="almacenid">Tipo de búsqueda</label>
+                </div>
+                <select id="almacenid" class="custom-select" required [(ngModel)]="busqueda.tipo" name="tipoBusqueda" #tipoBusqueda>
+                    <option value="codigo" selected>Código del producto</option>
+                    <option value="almacen">Código del almacén</option>
+                </select>
+                <input class="form-control" type="search" required name="codProducto" placeholder="Código" [(ngModel)]="busqueda.busqueda" #codProducto>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary buscar-compra" type="button" (click)="buscar()">
+                        <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z"
+                                clip-rule="evenodd" />
+                            <path fill-rule="evenodd"
+                                d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
+                                clip-rule="evenodd" />
+                        </svg>Buscar</button>
+                </div>
+            </div>
+
+        </div>
+
+
+    </form>
+</nav>
+
+<app-error *ngIf="error"></app-error>
+
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of productos">
+            <th scope="row">{{item.referencia | referencia}}</th>
+            <td>{{item.nombre}}</td>
+            <td>{{item.estado}}</td>
+            <td>{{item.cantidadDisponible}}</td>
+            <td>{{item.precioVenta | currency}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="container-lg bg-light text-center text-wrap no-productos" *ngIf="productos.length === 0">
+    No se encontraron resultados.
 </div>
