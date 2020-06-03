@@ -58,7 +58,7 @@ import { UpdateSaleComponent } from './components/update-sale/update-sale.compon
     CreateSaleComponent,
     ReferenciaPipe,
     ErrorComponent,
-    FilterUserPipe
+    FilterUserPipe,
     UpdateSaleComponent
   ],
   imports: [
