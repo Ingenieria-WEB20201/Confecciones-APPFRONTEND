@@ -16,8 +16,9 @@ export class SaleComponent implements OnInit {
   elementos: any = [];
   listaAlmacenes: any = [];
   error = false;
-  almacenid: number;
-  //buscar: any;
+  almacenid: any;
+  buscar: any;
+  listar = false;
 
   constructor(private router: Router, private userService: UserService, private saleService: SaleService, private tokenStorageService: TokenStorageService, private almacenService: AlmacenService) { }
 
@@ -27,6 +28,9 @@ export class SaleComponent implements OnInit {
       return;
     }
     this.elementos = [];
+    this.buscar = '';
+    this.almacenid = null;
+    this.listar = false;
     this.content = this.tokenStorageService.getUser().id;
 
     this.almacenService.getByUser(this.content).subscribe(data => {
@@ -34,18 +38,17 @@ export class SaleComponent implements OnInit {
       this.listaAlmacenes = data;
     }, err => {
       this.error = true;
-    });  
+    });
   }
 
   listarVenta() {
+    this.listar = true;
+    this.elementos = [];
     this.saleService.getByAlmacenId(this.almacenid).subscribe(data => {
-      console.log(data);
       this.error = false;
       data.forEach(element => {
-        this.elementos.push(element) ;
+        this.elementos.push(element);
       });
-      //console.log(data);
-      //console.log(this.elementos);
     }, err => {
       this.error = true;
     })
@@ -55,10 +58,11 @@ export class SaleComponent implements OnInit {
     this.router.navigate(['update-sale', id]);
   }
 
-  findById(ventaid) {
+  findById() {
     this.elementos = [];
-    this.saleService.getById(ventaid.value.buscar).subscribe(data => {
+    this.saleService.getById(this.buscar).subscribe(data => {
       this.elementos.push(data);
     });
+
   }
 }

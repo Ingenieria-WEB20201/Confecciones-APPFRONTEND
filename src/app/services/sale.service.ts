@@ -21,10 +21,6 @@ export class SaleService {
     });
   }
 
-  /* getAll(): Observable<any> {
-    return this.http.get(COMPRA_API + '/api/compra/');
-  } */
-
   getByAlmacenId(id: any): Observable<any> {
     return this.http.get(SALE_API + '/api/venta/almacen/' + id);
   }

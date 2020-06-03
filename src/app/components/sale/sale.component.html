@@ -21,9 +21,9 @@
     </svg> Restablecer
   </a>
   <form class="form-inline" #f="ngForm">
-    <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar" name="buscar" ngModel
-      required #buscar="ngModel">
-    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit" (click)="findById(f)">
+    <input class="form-control mr-sm-2" type="search" placeholder="Código de venta" aria-label="Buscar" name="CodBuscar" [(ngModel)] = "buscar"
+      required #CodBuscar>
+    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit" [disabled]="(buscar=='')" (click)="findById()">
       <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
         xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd"
@@ -37,7 +37,7 @@
 </nav>
 <div class="form-inline" style="padding-bottom: 2rem;">
     <label for="almacen" style="padding-right: .5rem;">Almacen: </label>
-    <select class="form-control mr-sm-2" required [(ngModel)]="almacenid" name="first" #first>
+    <select class="form-control mr-sm-2" style="width: 15%;" required [(ngModel)]="almacenid" name="first" #first>
       <option [ngValue]="null" selected></option>
       <option *ngFor="let almacen of listaAlmacenes" [ngValue]="almacen.id">{{almacen.name}}</option>
     </select>
@@ -45,4 +45,6 @@
                 [disabled]="(almacenid==null)" (click)="listarVenta()">listar
               </button>
 </div>
-<app-lista (modificar)="modificarVenta($event)" [items]="elementos"></app-lista>
+<div *ngIf="listar" aria-disabled="true">
+  <app-lista (modificar)="modificarVenta($event)" [items]="elementos"></app-lista>
+</div>

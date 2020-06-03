@@ -23,8 +23,8 @@ export class UpdateCompraComponent implements OnInit {
   error = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private compraService: CompraService,
-              private productoService: ProductoService, private almacenService: AlmacenService, 
-              private tokenStorageService: TokenStorageService) { }
+    private productoService: ProductoService, private almacenService: AlmacenService,
+    private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
     if (!this.tokenStorageService.getToken()) {

@@ -15,20 +15,13 @@ import { SaleService } from '../../services/sale.service';
 export class UpdateSaleComponent implements OnInit {
 
   cantidad: number;
-  oldCantDisponible: number = 0;
   oldCant: number;
-  listaAlmacenes: any = [];
   productosVenta: any = [];
-  productosAnteriores: any = [];
   productoVenta: any = {};
   facturaCompleta: any = [];
-  venta: any = { };  
-  prodActualizar: any = {
-    cantidadDisponible: 0
-  };
+  venta: any = {};
   items: any[] = [];
-  detalle: any;
-  productoEncontrado: any = [];
+  productoEncontrado: any;
   almacenSelect: boolean = false;
   guardando = false;
   error = false;
@@ -36,6 +29,8 @@ export class UpdateSaleComponent implements OnInit {
   mensaje: string;
   aux: any;
   nombreAlmacen: any;
+  productoBuscadoid: any;
+  
   constructor(private route: ActivatedRoute, private router: Router, private tokenStorageService: TokenStorageService, private almacenService: AlmacenService,
     private productoService: ProductoService, private prodAlmacenService: ProductoAlmacenService, private saleService: SaleService) { }
 
@@ -46,28 +41,18 @@ export class UpdateSaleComponent implements OnInit {
       return;
     }
     this.error = false;
-    this.route.params.subscribe(params => { 
+    this.route.params.subscribe(params => {
       this.saleService.getById(params.id).subscribe(data => {
         this.venta = data;
         this.venta.itemVenta.forEach(producto => {
           this.productosVenta.push(producto);
           this.facturaCompleta.push(producto);
-          this.productoService.get(producto.productoid).subscribe(data => {
-            this.error = false;
-            this.oldCantDisponible = data.cantidadDisponible;
-            console.log(this.oldCantDisponible);
-            this.prodActualizar = {
-              referencia: producto.productoid,
-              cantidadDisponible: (this.oldCantDisponible + producto.cantidad)
-            };
-            this.productosAnteriores.push(this.prodActualizar);
-          }, err => {
-            this.guardando = false;
-            this.error = true;
-          })
         })
-        console.log(this.venta);
-        
+        this.prodAlmacenService.get(this.venta.almacenid).subscribe(data => {
+          this.items = data;
+        }, err => {
+          this.error = true;
+        });
         this.almacenService.get(this.venta.almacenid).subscribe(almacen => {
           this.nombreAlmacen = almacen[0].name;
         }, err => {
@@ -80,34 +65,30 @@ export class UpdateSaleComponent implements OnInit {
   }
 
   listarAlamacen() {
+    this.mensaje = "";
     this.almacenSelect = true;
-    this.venta.productoid = null;
+    this.productoBuscadoid = null;
     this.productoEncontrado = [];
-    this.almacenService.get(this.venta.almacenid).subscribe(data => {
-      this.detalle = data[0].name;
-    });
-    this.prodAlmacenService.get(this.venta.almacenid).subscribe(data => {
-      this.items = data;
-    });
   }
 
   buscarProducto() {
-    this.productoService.get(this.venta.productoid).subscribe(data => {
-      this.productoEncontrado = data;
-    });
+    this.items.forEach(producto => {
+      if (producto[0].referencia == this.productoBuscadoid) {
+        this.productoEncontrado = producto;
+      }
+    })
   }
 
   saveProduct(producto, f: NgForm) {
     this.aux = this.productosVenta.filter(product => product.productoid == producto.referencia);
     this.oldCant = 0;
+
     if (this.aux.length > 0) {
       this.oldCant = this.aux[0].cantidad;
     }
     producto.cantidad = f.value.first + this.oldCant;
-    
-    //console.log(this.productosVenta);   producto.cantidadDisponible
     this.deleteProduct(producto.referencia);
-    
+
     this.productoVenta = {
       productoid: producto.referencia,
       precioUnitario: producto.precioVenta,
@@ -121,7 +102,8 @@ export class UpdateSaleComponent implements OnInit {
   }
 
   deleteProduct(ref: any) {
-    const productoEliminar = this.facturaCompleta.filter( producto => producto.productoid == ref );
+    this.mensaje = "";
+    const productoEliminar = this.facturaCompleta.filter(producto => producto.productoid == ref);
     this.venta.neto = this.venta.neto - (productoEliminar.length > 0 ? productoEliminar[0].precioNeto : 0);
     this.facturaCompleta = this.facturaCompleta.filter(producto => producto.productoid != ref);
     this.venta.itemVenta = this.facturaCompleta;
@@ -130,71 +112,27 @@ export class UpdateSaleComponent implements OnInit {
 
   updateSale() {
     this.cantidadCorrecta = true;
-    
-    this.productosVenta.forEach(producto => {
-      if (producto.cantidadDisponible < producto.cantidad) {
-        this.cantidadCorrecta = false;
-        console.log(this.cantidadCorrecta);
-      }
+
+    this.productosVenta.forEach(product => {
+      this.items.forEach(producto => {
+        if (producto[0].referencia == product.productoid) {
+          if (producto[0].cantidadDisponible < product.cantidad) {
+            this.cantidadCorrecta = false;
+          }
+        }
+      })
     })
     if (this.cantidadCorrecta) {
       this.guardando = true;
-      this.productosAnteriores.forEach(product => {
-        this.productoService.update(product).subscribe(data => {
-          this.error = false;
-          console.log(data);
-        }, err => {
-          this.guardando = false;
-          this.error = true;
-        });
-      })
-      console.log(this.cantidadCorrecta);
-      
-      console.log(this.venta);
-      console.log(this.venta.neto);
       this.saleService.update(this.venta).subscribe(data => {
-        this.error = false;
-        console.log(data);
-        console.log(data.itemVenta);
-        data.itemVenta.forEach(element => {
-          console.log(element);
-          this.productoService.get(element.productoid).subscribe(data => {
-            this.error = false;
-            this.oldCantDisponible = data.cantidadDisponible;
-            console.log(this.oldCantDisponible);
-            this.prodActualizar = {
-              referencia: element.productoid,
-              cantidadDisponible: (this.oldCantDisponible - element.cantidad)
-            };
-            this.productoService.update(this.prodActualizar).subscribe(data => {
-              this.error = false;
-              console.log(data);
-            }, err => {
-              this.guardando = false;
-              this.error = true;
-            });
-          }, err => {
-            this.guardando = false;
-            this.error = true;
-          })
-        })
-        this.router.navigate(['/sale']);
+        this.error = false;        
       }, err => {
         this.guardando = false;
         this.error = true;
       });
+      this.router.navigate(['/sale']);
     } else {
       this.mensaje = "Por favor verifique la cantidad de cada producto con su cantidad disponible";
     }
   }
-
-  onSubmit(f: NgForm) {
-    console.log(f.value);
-  }
 }
-
-/**
- * 
-          
-          
- */

@@ -66,6 +66,16 @@
     animation: girar 2.5s infinite linear;
 }
 
+.boton-secundario-modal {
+    border-color: #0062a9;
+    color: #0062a9;
+}
+
+.boton-secundario-modal:hover {
+    background-color: #0062a9;
+    color: white;
+}
+
 @keyframes girar {
     from {
         transform: rotate(0deg);
