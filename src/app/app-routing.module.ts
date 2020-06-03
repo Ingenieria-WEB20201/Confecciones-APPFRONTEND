@@ -14,6 +14,7 @@ import { BoardUserComponent } from './components/board-user/board-user.component
 import { ListEmpleadosComponent } from './components/Usuario/list-empleados/list-empleados.component'
 import { SaleComponent } from './components/sale/sale.component';
 import { CreateSaleComponent } from './components/create-sale/create-sale.component';
+import { UpdateSaleComponent } from './components/update-sale/update-sale.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'admin', component: BoardAdminComponent },
   { path: 'sale', component: SaleComponent },
   { path: 'create-sale', component: CreateSaleComponent },
+  { path: 'update-sale/:id', component: UpdateSaleComponent },
   { path: 'compra', component: BoardCompraComponent },
   { path: 'compra/registrar', component: CreateCompraComponent },
   { path: 'compra/modificar/:id', component: UpdateCompraComponent },
