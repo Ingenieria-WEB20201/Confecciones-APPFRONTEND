@@ -49,4 +49,8 @@ export class AuthService {
       return this.http.put(AUTH_API + '/api/auth/users/' + id, user[0]);
   }
 
+  deleteUser(id){
+    return this.http.delete(AUTH_API + '/api/auth/users/' + id);
+  }
+
 }

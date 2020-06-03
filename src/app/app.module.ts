@@ -31,6 +31,7 @@ import { AvatarPipe } from './pipes/avatar.pipe';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ReferenciaPipe } from './pipes/referencia.pipe';
 import { ErrorComponent } from './components/shared/error/error.component';
+import { FilterUserPipe } from './pipes/filter-user.pipe';
 
 
 
@@ -55,7 +56,8 @@ import { ErrorComponent } from './components/shared/error/error.component';
     SaleComponent,
     CreateSaleComponent,
     ReferenciaPipe,
-    ErrorComponent
+    ErrorComponent,
+    FilterUserPipe
   ],
   imports: [
     BrowserModule,
