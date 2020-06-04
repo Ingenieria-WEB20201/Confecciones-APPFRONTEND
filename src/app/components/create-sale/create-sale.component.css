@@ -1,0 +1,86 @@
+.btn-primary{
+    border-color: #50B2C4;
+}
+
+.btn-primary:hover{
+    background-color: #50B2C4;
+}
+
+.btn-default{
+    margin: 1rem;
+    border-color: gray;
+}
+
+.btn-default:hover{
+    background-color: #acabab;
+}
+.modal-lg {
+    max-width: 60%;
+}
+
+#cantidad {
+    width: 30%;
+}
+
+.btn-outline-primary{
+    float: left;
+    border-color: #50B2C4;
+}
+
+.btn-outline-primary:hover{
+    background-color: #50B2C4;
+}
+
+.botones {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.botones .cancelar-compra {
+    margin: 0 10px;
+    color: #212529;
+}
+
+.botones .cancelar-compra.desactivado {
+    pointer-events: none;
+}
+
+.botones .guardar-compra {
+    background-color: #25383b;
+    border-color: #25383b;
+}
+
+.botones .guardar-compra:hover {
+    background-color: #105E6D;
+    border-color: #105E6D;
+}
+
+.botones .guardar-compra:disabled {
+    pointer-events: none;
+}
+
+.botones .guardar-compra .guardando {
+    margin: -0.8px;
+    animation: girar 2.5s infinite linear;
+}
+
+.boton-secundario-modal {
+    border-color: #0062a9;
+    color: #0062a9;
+}
+
+.boton-secundario-modal:hover {
+    background-color: #0062a9;
+    color: white;
+}
+
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

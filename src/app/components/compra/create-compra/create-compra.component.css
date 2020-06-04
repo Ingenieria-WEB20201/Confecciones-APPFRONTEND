@@ -1,0 +1,171 @@
+p {
+    margin: 0;
+    margin-right: 10px;
+}
+
+svg {
+    cursor: pointer;
+}
+
+.input-group {
+    flex-wrap: nowrap;
+}
+
+.contenedor {
+    width: 100%;
+    margin: auto;
+    margin-top: 2%;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: -1px 6px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+#tabla-productos .colum-acciones {
+    width: 5%;
+    padding-right: 0;
+}
+
+#tabla-productos tbody td .elementos-acciones .bi-trash {
+    opacity: 0;
+    width: 1em;
+    height: 1em;
+    transition: all 0.1s;
+}
+
+#tabla-productos tbody td .elementos-acciones .bi-trash:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+#tabla-productos tbody td .elementos-acciones {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#tabla-productos tbody tr th .bi-plus-circle {
+    color: #0062a9;
+    width: 1.5em;
+    height: 1.5em;
+    transition: all 0.1s;
+}
+
+#tabla-productos tbody tr th .bi-plus-circle:hover {
+    transform: scale(1.1);
+}
+
+#tabla-productos tr:hover>td>div>.bi-trash {
+    opacity: 0.6;
+}
+
+.contenedor .elementos-informacion {
+    min-width: 141.5px;
+}
+
+@media (max-width: 1100px) {
+    #tabla-productos td,
+    #tabla-productos th {
+        padding-left: 2px;
+        padding-right: 2px;
+        text-align: center;
+        font-size: 13px;
+    }
+    .quitar {
+        display: none;
+    }
+}
+
+.botones {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.botones .cancelar-compra {
+    margin: 0 10px;
+    color: #212529;
+}
+
+.botones .cancelar-compra.desactivado {
+    pointer-events: none;
+}
+
+.botones .guardar-compra {
+    background-color: #25383b;
+    border-color: #25383b;
+}
+
+.botones .guardar-compra:hover {
+    background-color: #105E6D;
+    border-color: #105E6D;
+}
+
+.botones .guardar-compra:disabled {
+    pointer-events: none;
+}
+
+.botones .guardar-compra .guardando {
+    margin: -0.8px;
+    animation: girar 2.5s infinite linear;
+}
+
+@keyframes girar {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/*=========Modal=========*/
+
+.modal-dialog {
+    max-width: 1000px;
+}
+
+.modal-body {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.modal-body .referencia .contenedor-boton {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-body .referencia .contenedor-boton button {
+    border-color: #0062a9;
+    color: #0062a9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-body .referencia .contenedor-boton button:hover {
+    background-color: #0062a9;
+    color: white;
+}
+
+.modal-body .referencia .contenedor-boton button:disabled {
+    pointer-events: none;
+}
+
+.guardar-producto {
+    background-color: #0062a9;
+    border-color: #0062a9;
+}
+
+.guardar-producto:hover {
+    background-color: #004475;
+    border-color: #004475;
+}
+
+.guardar-producto:disabled {
+    pointer-events: none;
+}

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+
 const AUTH_API = 'http://localhost:3000';
 
 const httpOptions = {
@@ -26,9 +27,30 @@ export class AuthService {
     console.log(user);
     return this.http.post(AUTH_API + '/api/auth/signup', {
       username: user.username,
+      name: user.name,
       email: user.email,
       password: user.password,
-      //rol: JSON.parse(user.rol)
+      enable: user.enable,
+      avatar: user.avatar,
+      roles: user.role
     }, httpOptions);
   }
+
+  getAllUsers(): Observable<any> {
+    return this.http.get(AUTH_API + '/api/auth/users')
+  }
+
+  getUserByid(id): Observable<any> {
+    return this.http.get(AUTH_API + '/api/auth/users/' + id);
+  }
+
+  updateUser(user, id): Observable<any> {
+
+      return this.http.put(AUTH_API + '/api/auth/users/' + id, user[0]);
+  }
+
+  deleteUser(id){
+    return this.http.delete(AUTH_API + '/api/auth/users/' + id);
+  }
+
 }

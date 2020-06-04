@@ -1,1 +1,124 @@
-<p>profile works!</p>
+<form *ngIf="!isSuccessful" name="form" #f="ngForm" novalidate>
+    <div class="row" *ngFor="let userbyid of user">
+        <div class="form-group col-md-6">
+            <label for="username">Nombres y apellidos</label>
+            <input type="text" class="form-control" name="name" [(ngModel)]="userbyid.name" required minlength="3" maxlength="20" #name="ngModel" />
+            <div class="alert-danger" *ngIf="f.submitted && name.invalid">
+                <div *ngIf="name.errors.required">campo requerido</div>
+                <div *ngIf="name.errors.minlength">
+                    Username must be at least 3 characters
+                </div>
+                <div *ngIf="name.errors.maxlength">
+                    Username must be at most 20 characters
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" [(ngModel)]="userbyid.email" required email #email="ngModel" />
+            <div class="alert-danger" *ngIf="f.submitted && email.invalid">
+                <div *ngIf="email.errors.required">campo requerido</div>
+                <div *ngIf="email.errors.email">
+                    Email must be a valid email address
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" [(ngModel)]="userbyid.username" required minlength="3" maxlength="20" #username="ngModel" />
+            <div class="alert-danger" *ngIf="f.submitted && username.invalid">
+                <div *ngIf="username.errors.required">campo requerido</div>
+                <div *ngIf="username.errors.minlength">
+                    Username must be at least 3 characters
+                </div>
+                <div *ngIf="username.errors.maxlength">
+                    Username must be at most 20 characters
+                </div>
+            </div>
+        </div>
+
+        <fieldset class="form-group col-md-12">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
+                <div class="col-sm-2">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar1" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar1.png" alt="">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar2" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar2.png" alt="">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar3" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar3.png" alt="">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar4" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar4.png" alt="">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar5" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar5.png" alt="">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar6" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar6.png" alt="">
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar7" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar7.png" alt="">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar8" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar8.png" alt="">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar9" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar9.png" alt="">
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar10" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar10.png" alt="">
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar11" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar11.png" alt="">
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" value="avatar12" name="avatar" [(ngModel)]="userbyid.avatar" required #avatar="ngModel">
+                        <img class="icon-avatar" src="../../../assets/Avatares/Avatar12.png" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-danger" *ngIf="f.submitted && avatar.invalid">
+                <div *ngIf="avatar.errors.required">campo requerido</div>
+
+            </div>
+        </fieldset>
+
+
+        <div class="form-group form-bton col-sm-12">
+            <button class="registrar-btn" (click)="onSubmit(userbyid.id)" data-dismiss="modal">Actualizar usuario</button>
+        </div>
+
+        <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+            Signup failed!<br />{{ errorMessage }}
+        </div>
+    </div>
+</form>

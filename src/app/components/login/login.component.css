@@ -1,10 +1,16 @@
 /*============================================================ LOGIN ==============================================*/
 
 .iniciar-secion {
-    max-width: 350px;
+    max-width: 500px;
     width: 100%;
     margin: auto;
     margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff80;
+    padding: 2rem;
+    border-radius: 25px;
+    box-shadow: -1px 6px 5px 0px rgba(0, 0, 0, 0.75);
 }
 
 .iniciar-secion form {
@@ -20,4 +26,22 @@
 .iniciar-secion form .btn:hover {
     background-color: #105E6D;
     border: none;
+}
+
+.contenedornavbar {
+    width: 300px;
+}
+
+.img-user {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#profile-img {
+    width: 42%;
+}
+
+.recuperacion {
+    color: #525252;
+    font-size: 14px;
 }

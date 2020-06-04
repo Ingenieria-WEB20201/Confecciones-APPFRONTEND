@@ -1,0 +1,72 @@
+/*============================================================ REGISTER ==============================================*/
+
+.registrar {
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+}
+
+.registrar form {
+    margin: auto 3%;
+}
+
+.registrar-btn {
+    background-color: #25383b;
+    padding: 0.8em;
+    border-radius: 8px;
+    color: #fff;
+    transition: all 0.5s;
+    border: none;
+    width: 200px;
+}
+
+.form-bton {
+    display: flex;
+    justify-content: center;
+}
+
+.registrar-btn:hover {
+    background-color: #105E6D;
+    border: none;
+}
+
+.contenedor-acompañamiento {
+    background-image: url('../../../assets/registro.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+}
+
+.img-registro {
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+}
+
+.col-img {
+    background-color: #25383b;
+}
+
+
+/***************************/
+
+.form-inline .bi {
+    margin-right: 1em;
+}
+
+.nav-register {
+    text-decoration: none;
+    padding: 0.5em;
+    border-radius: 6px;
+    color: #000;
+    cursor: pointer;
+}
+
+.nav-register:hover {
+    background-color: #e1e1e1;
+}
+
+.icon-avatar {
+    width: 60%;
+}
