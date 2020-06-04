@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const PRODUCTO_API = 'http://localhost:3000';
+const PRODUCTO_API = 'https://confeccionesapp-back.herokuapp.com';
 
 @Injectable({
   providedIn: 'root'
