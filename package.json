@@ -23,7 +23,7 @@
         "@sweetalert2/ngx-sweetalert2": "^8.1.0",
         "@types/jquery": "^3.3.35",
         "bootstrap": "^4.4.1",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "jquery": "^3.5.0",
         "ngx-bootstrap": "^5.6.1",
         "popper.js": "^1.16.1",
